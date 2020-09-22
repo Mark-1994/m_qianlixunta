@@ -6,6 +6,7 @@
       <van-button type="danger">危险按钮</van-button>
     </div> -->
     <router-view/>
+    <div class="tabbar_placeholder" style="height: 50px;"></div>
   </div>
 </template>
 

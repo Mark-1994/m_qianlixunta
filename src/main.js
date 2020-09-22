@@ -15,7 +15,14 @@ import {
   Grid,
   GridItem,
   Image as VanImage,
-  Lazyload
+  Lazyload,
+  Tabbar,
+  TabbarItem,
+  PullRefresh,
+  List,
+  Form,
+  Field,
+  Tag
 } from 'vant'
 import 'vant/lib/index.css'
 Vue.use(Button)
@@ -31,6 +38,13 @@ Vue.use(VanImage)
 Vue.use(Lazyload, {
   lazyComponent: true
 })
+Vue.use(Tabbar)
+Vue.use(TabbarItem)
+Vue.use(PullRefresh)
+Vue.use(List)
+Vue.use(Form)
+Vue.use(Field)
+Vue.use(Tag)
 
 Vue.config.productionTip = false
 
