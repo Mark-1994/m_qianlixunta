@@ -22,7 +22,11 @@ import {
   List,
   Form,
   Field,
-  Tag
+  Tag,
+  Swipe,
+  SwipeItem,
+  RadioGroup,
+  Radio
 } from 'vant'
 import 'vant/lib/index.css'
 Vue.use(Button)
@@ -45,6 +49,10 @@ Vue.use(List)
 Vue.use(Form)
 Vue.use(Field)
 Vue.use(Tag)
+Vue.use(Swipe)
+Vue.use(SwipeItem)
+Vue.use(RadioGroup)
+Vue.use(Radio)
 
 Vue.config.productionTip = false
 

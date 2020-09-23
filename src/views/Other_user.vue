@@ -39,14 +39,90 @@
             </van-col>
           </van-row>
           <van-row>
-            <van-col span="24">照片</van-col>
+            <van-col span="24">
+              <h4 style="text-align: left;">照片</h4>
+
+              <!-- 轮播图滑动 -->
+              <van-swipe :loop="false" :width="100" :height="90" :show-indicators="false">
+                <van-swipe-item>
+                  <van-image :src="require('../assets/life_img01.png')" width="90" height="90" radius="4" lazy-load />
+                </van-swipe-item>
+                <van-swipe-item>
+                  <van-image src="https://img.yzcdn.cn/vant/cat.jpeg" width="90" height="90" radius="4" lazy-load />
+                </van-swipe-item>
+                <van-swipe-item>
+                  <van-image :src="require('../assets/life_img01.png')" width="90" height="90" radius="4" lazy-load />
+                </van-swipe-item>
+                <van-swipe-item>
+                  <van-image src="https://img.yzcdn.cn/vant/cat.jpeg" width="90" height="90" radius="4" lazy-load />
+                </van-swipe-item>
+                <van-swipe-item>
+                  <van-image :src="require('../assets/life_img01.png')" width="90" height="90" radius="4" lazy-load />
+                </van-swipe-item>
+                <van-swipe-item>
+                  <van-image src="https://img.yzcdn.cn/vant/cat.jpeg" width="90" height="90" radius="4" lazy-load />
+                </van-swipe-item>
+              </van-swipe>
+
+            </van-col>
           </van-row>
           <van-row>
-            <van-col span="24">自我介绍</van-col>
+            <van-col span="24" style="text-align: left;">
+              <h4>自我介绍</h4>
+              <p style="color: rgba(0,0,0,.4)">喜欢玩游戏的宅男喜欢玩游戏的宅男喜欢玩游戏的宅男喜欢玩游戏的宅男喜欢玩游戏的宅男喜欢玩游戏的宅男</p>
+            </van-col>
           </van-row>
           <van-row>
+            <van-col span="24" style="text-align: left;">
+              <h4>标签</h4>
+              <van-row gutter="10">
+                <van-col>
+                  <van-tag type="primary" color="#917FFE" size="large">旅游</van-tag>
+                </van-col>
+                <van-col>
+                  <van-tag type="primary" color="#917FFE" size="large">二次元</van-tag>
+                </van-col>
+                <van-col>
+                  <van-tag type="primary" color="#917FFE" size="large">狮子座</van-tag>
+                </van-col>
+                <van-col>
+                  <van-tag type="primary" color="#917FFE" size="large">吃货</van-tag>
+                </van-col>
+              </van-row>
+            </van-col>
+          </van-row>
+          <van-row>
+            <van-col span="24" style="text-align: left;">
+              <h4>生活方式</h4>
+              <van-row style="line-height: 30px;">
+                <van-col>
+                  <span style="color: rgba(0,0,0,.5);">吸烟：</span>
+                  不抽烟也不讨厌他人抽烟
+                </van-col>
+              </van-row>
+              <van-row style="line-height: 30px;">
+                <van-col>
+                  <span style="color: rgba(0,0,0,.5);">饮酒：</span>
+                  不饮酒
+                </van-col>
+              </van-row>
+              <van-row style="line-height: 30px;">
+                <van-col>
+                  <span style="color: rgba(0,0,0,.5);">作息时间：</span>
+                  偶尔懒散一下
+                </van-col>
+              </van-row>
+              <van-row style="line-height: 30px;">
+                <van-col>
+                  <span style="color: rgba(0,0,0,.5);">交际圈子：</span>
+                  经常和朋友见面
+                </van-col>
+              </van-row>
+            </van-col>
+          </van-row>
+          <!-- <van-row>
             <van-col span="24">标签</van-col>
-          </van-row>
+          </van-row> -->
         </div>
       </van-tab>
     </van-tabs>
