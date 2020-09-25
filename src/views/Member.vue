@@ -10,7 +10,7 @@
     </van-nav-bar>
 
     <van-tabs v-model="active" animated border>
-      <van-tab v-for="item in tab_title" :title="item.title" :key="item.id">
+      <van-tab title="加入会员">
 
         <van-image width="100%" height="154" src="https://img.yzcdn.cn/vant/cat.jpeg" />
         <h4 style="font-size: 18px;"><van-icon name="gem" color="#FAB005" style="margin-right: 8px;" />会员权益</h4>
@@ -55,6 +55,94 @@
         <van-button color="#FF2877" style="border-radius: 6px;margin: 40px 0;">立即加入会员</van-button>
 
       </van-tab>
+
+      <van-tab title="红娘一对一">
+        <h4 style="font-size: 18px;"><van-icon name="gem" color="#FAB005" style="margin-right: 8px;" />红娘一对一专属服务</h4>
+        <van-row gutter="10" style="margin: 0 10px;">
+          <van-col span="8">
+            <div style="background-color: #fff;border-radius: 6px;box-shadow: 0 2px 2px 0 rgba(0,0,0,.1);padding: 20px 0 1px;">
+              <van-image width="47" height="50" :src="require('../assets/private_serve01.png')" />
+              <p style="font-size: 12px;">一对一专属服务</p>
+            </div>
+          </van-col>
+          <van-col span="8">
+            <div style="background-color: #fff;border-radius: 6px;box-shadow: 0 2px 2px 0 rgba(0,0,0,.1);padding: 20px 0 1px;">
+              <van-image width="48" height="50" :src="require('../assets/bulinbulin01.png')" />
+              <p style="font-size: 12px;">真实会员，安全可靠</p>
+            </div>
+          </van-col>
+          <van-col span="8">
+            <div style="background-color: #fff;border-radius: 6px;box-shadow: 0 2px 2px 0 rgba(0,0,0,.1);padding: 20px 0 1px;">
+              <van-image width="48" height="50" :src="require('../assets/privacy01.png')" />
+              <p style="font-size: 12px;">个人隐私有保障</p>
+            </div>
+          </van-col>
+        </van-row>
+
+        <van-row style="text-align: left;color: #B7B7B7;margin: 20px 10px 0;">
+          <van-col span="24">
+            红娘一对一权益及相关说明：
+          </van-col>
+        </van-row>
+        <van-row style="text-align: left;color: #B7B7B7;margin: 0 10px;">
+          <van-col span="24">
+             1.服务将于在线支付成功后自动开通。2.服务一经开通，不予退款，敬请谅解。
+          </van-col>
+        </van-row>
+
+        <van-form style="padding: 20px 20px 0;">
+          <van-field name="radio" label="" style="padding: 0;">
+            <template #input>
+              <van-radio-group v-model="radio">
+                <van-radio name="1" icon-size="92px">
+                  <template #icon="props">
+                    <div :class="props.checked ? 'activeRadio activeSize' : 'activeSize'" :style="'width:' + scrnWidth + 'px'">
+
+                      <van-row style="line-height: 46px;">
+                        <van-col>
+                          按您的要求精心挑选20位心仪的对象
+                        </van-col>
+                      </van-row>
+                      <van-row style="line-height: 46px;">
+                        <van-col>
+                          <span>3000</span>元/12个月
+                        </van-col>
+                      </van-row>
+
+                    </div>
+                  </template>
+                </van-radio>
+                <van-radio name="2" icon-size="92px">
+                  <template #icon="props">
+                    <div :class="props.checked ? 'activeRadio activeSize' : 'activeSize'" :style="'width:' + scrnWidth + 'px'">
+
+                      <van-row style="line-height: 46px;">
+                        <van-col>
+                          按您的要求精心挑选10位心仪的对象
+                        </van-col>
+                      </van-row>
+                      <van-row style="line-height: 46px;">
+                        <van-col>
+                          <span>1888</span>元/12个月
+                        </van-col>
+                      </van-row>
+
+                    </div>
+                  </template>
+                </van-radio>
+              </van-radio-group>
+            </template>
+          </van-field>
+          <div style="margin: 16px;">
+            <van-button round type="danger" native-type="submit">
+              立即购买服务
+            </van-button>
+          </div>
+
+        </van-form>
+
+      </van-tab>
+
     </van-tabs>
 
     <van-tabbar v-model="tabbar_active" active-color="#379AFD" inactive-color="#0A2250" safe-area-inset-bottom :border="true">
@@ -76,15 +164,13 @@ export default {
     return {
       active: 0,
       tabbar_active: 0,
-      // 首页两个 tab title
-      tab_title: [{
-        id: 0,
-        title: '加入会员'
-      }, {
-        id: 1,
-        title: '红娘一对一'
-      }]
+      radio: '1',
+      scrnWidth: 0
     }
+  },
+  created () {
+    // 获取屏幕的宽度
+    this.scrnWidth = innerWidth - 40
   },
   methods: {
   }
@@ -103,5 +189,16 @@ export default {
   html,
   body {
     background-color: #f3f3f3;
+  }
+  .activeRadio {
+    background: linear-gradient(180deg,#ff6262, #9c0ce6);
+    color: #fff;
+  }
+  .activeSize {
+    font-size: 16px;
+    border-radius: 6px;
+    box-shadow: 0px 2px 2px 0px rgba(0,0,0,.1);
+    padding: 0 20px;
+    box-sizing: border-box;
   }
 </style>

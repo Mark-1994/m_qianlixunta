@@ -26,7 +26,12 @@ import {
   Swipe,
   SwipeItem,
   RadioGroup,
-  Radio
+  Radio,
+  Cell,
+  CellGroup,
+  Uploader,
+  Picker,
+  Popup
 } from 'vant'
 import 'vant/lib/index.css'
 Vue.use(Button)
@@ -53,6 +58,11 @@ Vue.use(Swipe)
 Vue.use(SwipeItem)
 Vue.use(RadioGroup)
 Vue.use(Radio)
+Vue.use(Cell)
+Vue.use(CellGroup)
+Vue.use(Uploader)
+Vue.use(Picker)
+Vue.use(Popup)
 
 Vue.config.productionTip = false
 
