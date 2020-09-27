@@ -31,7 +31,10 @@ import {
   CellGroup,
   Uploader,
   Picker,
-  Popup
+  Popup,
+  Area,
+  DropdownMenu,
+  DropdownItem
 } from 'vant'
 import 'vant/lib/index.css'
 Vue.use(Button)
@@ -63,6 +66,9 @@ Vue.use(CellGroup)
 Vue.use(Uploader)
 Vue.use(Picker)
 Vue.use(Popup)
+Vue.use(Area)
+Vue.use(DropdownMenu)
+Vue.use(DropdownItem)
 
 Vue.config.productionTip = false
 
