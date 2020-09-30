@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import axios from 'axios'
 
 // 手动按需引入组件
 import {
@@ -34,7 +35,8 @@ import {
   Popup,
   Area,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
+  Divider
 } from 'vant'
 import 'vant/lib/index.css'
 Vue.use(Button)
@@ -69,6 +71,10 @@ Vue.use(Popup)
 Vue.use(Area)
 Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
+Vue.use(Divider)
+
+axios.defaults.baseURL = 'http://admin.qianlixunta.com'
+Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
 

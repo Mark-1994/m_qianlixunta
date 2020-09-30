@@ -1,14 +1,6 @@
 <template>
   <div class="login">
 
-    <van-nav-bar
-      title="千里寻TA"
-      left-arrow>
-      <template #right>
-        <van-icon name="weapp-nav" />
-      </template>
-    </van-nav-bar>
-
     <div class="log_form_box">
       <div class="log_title_info">
         <van-row>
@@ -54,24 +46,16 @@
 
     </div>
 
-    <van-tabbar v-model="tabbar_active" active-color="#379AFD" inactive-color="#0A2250" safe-area-inset-bottom :border="true">
-      <van-tabbar-item icon="chat-o">信息</van-tabbar-item>
-      <van-tabbar-item icon="contact">我的</van-tabbar-item>
-      <van-tabbar-item icon="shop-o">购买</van-tabbar-item>
-      <van-tabbar-item icon="like-o">邂逅</van-tabbar-item>
-    </van-tabbar>
-
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Home',
+  name: 'Login',
   components: {
   },
   data () {
     return {
-      tabbar_active: 0,
       username: '',
       password: ''
     }
@@ -85,17 +69,6 @@ export default {
 </script>
 
 <style lang="less">
-  .van-nav-bar {
-    background: linear-gradient(154deg,#ff2a86, #927ffe 65%, #917fff 83%, #9effff 181%);
-  }
-  .van-nav-bar i.van-icon,
-  div.van-nav-bar__title {
-    color: #fff;
-  }
-  i {
-    vertical-align: middle;
-  }
-
   html,
   body,
   #app {
@@ -106,7 +79,8 @@ export default {
     background: url(https://img.yzcdn.cn/vant/cat.jpeg) no-repeat center center / cover;
   }
   .log_title_info {
-    margin: 50px 0;
+    margin: 0 0 50px;
+    padding-top: 50px;
   }
   .logo_alt {
     color: #F15598;

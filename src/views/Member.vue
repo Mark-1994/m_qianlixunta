@@ -1,13 +1,5 @@
 <template>
-  <div class="home">
-
-    <van-nav-bar
-      title="千里寻TA"
-      left-arrow>
-      <template #right>
-        <van-icon name="weapp-nav" />
-      </template>
-    </van-nav-bar>
+  <div class="member">
 
     <van-tabs v-model="active" animated border>
       <van-tab title="加入会员">
@@ -52,7 +44,7 @@
         <van-row>
           <van-col span="24"><span style="font-size: 30px;">168</span>元/年</van-col>
         </van-row>
-        <van-button color="#FF2877" style="border-radius: 6px;margin: 40px 0;">立即加入会员</van-button>
+        <van-button color="#FF2877" style="border-radius: 6px;margin: 40px 0;" to="pay">立即加入会员</van-button>
 
       </van-tab>
 
@@ -134,7 +126,7 @@
             </template>
           </van-field>
           <div style="margin: 16px;">
-            <van-button round type="danger" native-type="submit">
+            <van-button round type="danger" native-type="submit" to="pay">
               立即购买服务
             </van-button>
           </div>
@@ -145,25 +137,17 @@
 
     </van-tabs>
 
-    <van-tabbar v-model="tabbar_active" active-color="#379AFD" inactive-color="#0A2250" safe-area-inset-bottom :border="true">
-      <van-tabbar-item icon="chat-o">信息</van-tabbar-item>
-      <van-tabbar-item icon="contact">我的</van-tabbar-item>
-      <van-tabbar-item icon="shop-o">购买</van-tabbar-item>
-      <van-tabbar-item icon="like-o">邂逅</van-tabbar-item>
-    </van-tabbar>
-
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Home',
+  name: 'Member',
   components: {
   },
   data () {
     return {
       active: 0,
-      tabbar_active: 0,
       radio: '1',
       scrnWidth: 0
     }
@@ -178,14 +162,6 @@ export default {
 </script>
 
 <style lang="less">
-  .van-nav-bar {
-    background: linear-gradient(154deg,#ff2a86, #927ffe 65%, #917fff 83%, #9effff 181%);
-  }
-  .van-nav-bar i.van-icon,
-  div.van-nav-bar__title {
-    color: #fff;
-  }
-
   html,
   body {
     background-color: #f3f3f3;

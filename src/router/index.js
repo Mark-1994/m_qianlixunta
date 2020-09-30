@@ -7,6 +7,10 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
+    redirect: '/index'
+  },
+  {
+    path: '/index',
     name: 'Home',
     component: Home
   },
@@ -25,8 +29,8 @@ const routes = [
   },
   {
     path: '/other_user',
-    name: 'Other_user',
-    component: () => import('../views/Other_user.vue')
+    name: 'OtherUser',
+    component: () => import('../views/OtherUser.vue')
   },
   {
     path: '/member',
@@ -40,8 +44,8 @@ const routes = [
   },
   {
     path: '/message_lists',
-    name: 'Message_lists',
-    component: () => import('../views/Message_lists.vue')
+    name: 'MessageLists',
+    component: () => import('../views/MessageLists.vue')
   },
   {
     path: '/me',
@@ -52,6 +56,11 @@ const routes = [
     path: '/meet',
     name: 'Meet',
     component: () => import('../views/Meet.vue')
+  },
+  {
+    path: '/chat',
+    name: 'Chat',
+    component: () => import('../views/Chat.vue')
   }
 ]
 

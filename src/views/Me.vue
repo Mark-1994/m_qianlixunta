@@ -1,17 +1,6 @@
 <template>
   <div class="me">
 
-    <van-nav-bar
-      title="千里寻TA"
-      left-arrow>
-      <template #right>
-        <van-dropdown-menu>
-          <van-dropdown-item :options="option1" />
-          <!-- <van-icon name="ellipsis" /> -->
-        </van-dropdown-menu>
-      </template>
-    </van-nav-bar>
-
     <van-form @submit="onSubmit">
       <van-field>
         <template #input>
@@ -184,13 +173,6 @@
 
     </van-form>
 
-    <van-tabbar v-model="tabbar_active" active-color="#379AFD" inactive-color="#0A2250" safe-area-inset-bottom :border="true">
-      <van-tabbar-item icon="chat-o">信息</van-tabbar-item>
-      <van-tabbar-item icon="contact">我的</van-tabbar-item>
-      <van-tabbar-item icon="shop-o">购买</van-tabbar-item>
-      <van-tabbar-item icon="like-o">邂逅</van-tabbar-item>
-    </van-tabbar>
-
   </div>
 </template>
 
@@ -201,12 +183,6 @@ export default {
   },
   data () {
     return {
-      option1: [
-        { text: '信息', value: 0 },
-        { text: '我的', value: 1 },
-        { text: '购买', value: 2 },
-        { text: '邂逅', value: 3 }
-      ],
       tabbar_active: 0,
       // 是否展示
       showSex: false,
@@ -320,26 +296,5 @@ export default {
 </script>
 
 <style lang="less">
-  .van-nav-bar {
-    background: linear-gradient(154deg,#ff2a86, #927ffe 65%, #917fff 83%, #9effff 181%);
-  }
-  .van-nav-bar i.van-icon {
-    color: #fff;
-  }
-  .van-nav-bar .van-nav-bar__right i.van-icon {
-    transform: rotate(90deg);
-    font-weight: bold;
-  }
-  .van-dropdown-menu__bar {
-    background-color: transparent;
-  }
-  .van-dropdown-menu__title::after {
-    opacity: 1;
-    content: '...';
-    color: #fff;
-    font-size: 24px;
-    transform: translateY(-50%) rotate(-90deg);
-    border: 0;
-    margin-top: 0;
-  }
+
 </style>

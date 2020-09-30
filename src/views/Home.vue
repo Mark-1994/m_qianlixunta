@@ -3,14 +3,6 @@
     <!-- <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/> -->
 
-    <van-nav-bar
-      title="千里寻TA"
-      left-arrow>
-      <template #right>
-        <van-icon name="weapp-nav" />
-      </template>
-    </van-nav-bar>
-
     <van-tabs v-model="active" animated border>
       <van-tab v-for="item in tab_title" :title="item.title" :key="item.id">
 
@@ -28,7 +20,7 @@
             @load="onLoad"
           >
           <van-grid :border="false" :column-num="2" :gutter="4" :center="false">
-            <van-grid-item v-for="item01 in user_list" :key="item01.id">
+            <van-grid-item v-for="item01 in user_list" :key="item01.id" to="/other_user">
               <div class="img_info_box">
                 <van-image width="100%" height="217" fit="fill" lazy-load :src="item01.headimg" radius="4" />
                 <van-row type="flex" justify="space-between" class="nickname_sex_age">
@@ -59,13 +51,6 @@
       </van-tab>
     </van-tabs>
 
-    <van-tabbar v-model="tabbar_active" active-color="#379AFD" inactive-color="#0A2250" safe-area-inset-bottom :border="true">
-      <van-tabbar-item icon="chat-o">信息</van-tabbar-item>
-      <van-tabbar-item icon="contact">我的</van-tabbar-item>
-      <van-tabbar-item icon="shop-o">购买</van-tabbar-item>
-      <van-tabbar-item icon="like-o">邂逅</van-tabbar-item>
-    </van-tabbar>
-
   </div>
 </template>
 
@@ -81,7 +66,6 @@ export default {
   data () {
     return {
       active: 0,
-      tabbar_active: 0,
       isLoading: false,
       loading: false,
       error: false,
@@ -154,6 +138,17 @@ export default {
       }]
     }
   },
+  created () {
+    this.$http.post('/wpapi/member/find_friend', {
+      page: 1
+    })
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
   methods: {
     // 上拉刷新
     onRefresh () {
@@ -174,13 +169,6 @@ export default {
 </script>
 
 <style lang="less">
-  .van-nav-bar {
-    background: linear-gradient(154deg,#ff2a86, #927ffe 65%, #917fff 83%, #9effff 181%);
-  }
-  .van-nav-bar i.van-icon,
-  div.van-nav-bar__title {
-    color: #fff;
-  }
   .nickname_sex_age {
     background-color: rgba(0, 0, 0, .4);
     color: #fff;

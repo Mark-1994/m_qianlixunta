@@ -1,13 +1,5 @@
 <template>
-  <div class="home">
-
-    <van-nav-bar
-      title="千里寻TA"
-      left-arrow>
-      <template #right>
-        <van-icon name="weapp-nav" />
-      </template>
-    </van-nav-bar>
+  <div class="pay">
 
     <van-form style="padding: 20px 20px 0;">
       <h4 style="text-align: left;">购买服务</h4>
@@ -101,13 +93,6 @@
 
     </van-form>
 
-    <van-tabbar v-model="tabbar_active" active-color="#379AFD" inactive-color="#0A2250" safe-area-inset-bottom :border="true">
-      <van-tabbar-item icon="chat-o">信息</van-tabbar-item>
-      <van-tabbar-item icon="contact">我的</van-tabbar-item>
-      <van-tabbar-item icon="shop-o">购买</van-tabbar-item>
-      <van-tabbar-item icon="like-o">邂逅</van-tabbar-item>
-    </van-tabbar>
-
   </div>
 </template>
 
@@ -118,7 +103,6 @@ export default {
   },
   data () {
     return {
-      tabbar_active: 0,
       radio: '1',
       scrnWidth: 0,
       payRadio: '1'
@@ -134,12 +118,6 @@ export default {
 </script>
 
 <style lang="less">
-  .van-nav-bar {
-    background: linear-gradient(154deg,#ff2a86, #927ffe 65%, #917fff 83%, #9effff 181%);
-  }
-  .van-nav-bar i.van-icon {
-    color: #fff;
-  }
   .activeRadio {
     background: linear-gradient(180deg,#ff6262, #9c0ce6);
     color: #fff;

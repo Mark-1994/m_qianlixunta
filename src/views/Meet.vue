@@ -1,14 +1,6 @@
 <template>
   <div class="meet">
 
-    <van-nav-bar
-      title="千里寻TA"
-      left-arrow>
-      <template #right>
-        <van-icon name="weapp-nav" />
-      </template>
-    </van-nav-bar>
-
     <van-tabs v-model="active" animated border>
       <van-tab v-for="item in tab_title" :title="item.title" :key="item.id">
 
@@ -18,16 +10,44 @@
               :drag-distance="150"
               :top-space="-30"
               :show-card-number="3"
-              height="330px"
+              height="300px"
               width="300px">
               <silder-like-item
                 @silder-left="like(item)"
                 @silder-right="nulike(item)"
                 v-for="(item, index) in items"
                 :key="index">
-                <img :src="item.img" width="100%" />
-                <h2>{{item.title}}</h2>
-                <p>{{item.body}}</p>
+                <img :src="item.img" width="100%" height="200px" style="display: block;padding: 8px;box-sizing: border-box;" />
+                <!-- <h2>{{item.title}}</h2>
+                <p>{{item.body}}</p> -->
+
+                <van-row type="flex" align="center" style="height: 100px;">
+                  <van-col span="16" style="padding: 0 12px;">
+                    <van-row>
+                      <van-col>CICI</van-col>
+                    </van-row>
+                    <van-row>
+                      <van-col>
+                        <van-tag color="#FF2877" size="large">
+                          <template #default>
+                            <van-icon name="flower-o" />24岁
+                          </template>
+                        </van-tag>
+                        <van-tag color="#917FFE" size="large" style="margin: 0 6px;">VIP</van-tag>
+                        <van-tag color="#917FFE" size="large">武汉</van-tag>
+                      </van-col>
+                    </van-row>
+                  </van-col>
+                  <van-col span="8" style="border-left: 1px solid #707070;">
+                    <van-row type="flex" justify="center">
+                      <van-col style="font-weight: bold;font-size: 20px;">80%</van-col>
+                    </van-row>
+                    <van-row type="flex" justify="center">
+                      <van-col style="color: #838383;font-size: 12px;">匹配度</van-col>
+                    </van-row>
+                  </van-col>
+                </van-row>
+
               </silder-like-item>
             </silder-like>
           </div>
@@ -37,13 +57,13 @@
           </p>
 
           <div class="col" style="display: flex;justify-content: space-between;width: 300px;margin: 0 auto;padding-bottom: 30px;">
-            <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="like-o" style="width: 76px;height: 76px;border-radius: 50%;">
+            <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="like-o" style="width: 76px;height: 76px;border-radius: 50%;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);">
               喜欢
             </van-button>
-            <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="close" style="width: 76px;height: 76px;border-radius: 50%;">
+            <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="close" style="width: 76px;height: 76px;border-radius: 50%;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);">
               不喜欢
             </van-button>
-            <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="chat-o" style="width: 76px;height: 76px;border-radius: 50%;">
+            <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="chat-o" style="width: 76px;height: 76px;border-radius: 50%;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);" to="chat">
               发消息
             </van-button>
             <!-- <button @click="addItem">增加一个item</button> -->
@@ -52,13 +72,6 @@
 
       </van-tab>
     </van-tabs>
-
-    <van-tabbar v-model="tabbar_active" active-color="#379AFD" inactive-color="#0A2250" safe-area-inset-bottom :border="true">
-      <van-tabbar-item icon="chat-o">信息</van-tabbar-item>
-      <van-tabbar-item icon="contact">我的</van-tabbar-item>
-      <van-tabbar-item icon="shop-o">购买</van-tabbar-item>
-      <van-tabbar-item icon="like-o">邂逅</van-tabbar-item>
-    </van-tabbar>
 
   </div>
 </template>
@@ -75,7 +88,6 @@ export default {
   data () {
     return {
       active: 0,
-      tabbar_active: 0,
       // 首页两个 tab title
       tab_title: [{
         id: 0,
@@ -108,18 +120,6 @@ export default {
 </script>
 
 <style lang="less">
-  .van-nav-bar {
-    background: linear-gradient(154deg,#ff2a86, #927ffe 65%, #917fff 83%, #9effff 181%);
-  }
-  .van-nav-bar i.van-icon {
-    color: #fff;
-  }
-
-  // html,
-  // body {
-  //   height: 100%;
-  //   background: linear-gradient(0deg,#ff2a86, #927ffe 44%, #917fff 57%, #9effff 123%);
-  // }
   .van-button__content {
     flex-direction: column;
     i {
