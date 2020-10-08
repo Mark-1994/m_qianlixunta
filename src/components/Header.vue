@@ -11,7 +11,10 @@
     <van-nav-bar
       title="千里寻TA"
       left-arrow
-      @click-left="onClickLeft">
+      @click-left="onClickLeft"
+      fixed
+      placeholder
+      z-index=2>
       <template #right>
         <van-dropdown-menu>
           <van-dropdown-item :options="option1" @change="changeEvent" />

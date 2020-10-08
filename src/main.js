@@ -36,7 +36,8 @@ import {
   Area,
   DropdownMenu,
   DropdownItem,
-  Divider
+  Divider,
+  Notify
 } from 'vant'
 import 'vant/lib/index.css'
 Vue.use(Button)
@@ -72,6 +73,7 @@ Vue.use(Area)
 Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
 Vue.use(Divider)
+Vue.use(Notify)
 
 axios.defaults.baseURL = 'http://admin.qianlixunta.com'
 Vue.prototype.$http = axios

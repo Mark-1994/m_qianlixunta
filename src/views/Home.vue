@@ -3,7 +3,7 @@
     <!-- <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/> -->
 
-    <van-tabs v-model="active" animated border>
+    <van-tabs v-model="active" animated border swipeable @click="homeSwitch" @change="homeSwitch">
       <van-tab v-for="item in tab_title" :title="item.title" :key="item.id">
 
         <van-pull-refresh
@@ -22,12 +22,12 @@
           <van-grid :border="false" :column-num="2" :gutter="4" :center="false">
             <van-grid-item v-for="item01 in user_list" :key="item01.id" to="/other_user">
               <div class="img_info_box">
-                <van-image width="100%" height="217" fit="fill" lazy-load :src="item01.headimg" radius="4" />
+                <van-image width="100%" height="217" fit="fill" lazy-load :src="item01.head_portrait ? 'http://admin.qianlixunta.com'+item01.head_portrait : item01.head_portrait" radius="4" />
                 <van-row type="flex" justify="space-between" class="nickname_sex_age">
-                  <van-col span="12" class="item_nickname">{{item01.nickname}}</van-col>
+                  <van-col span="12" class="item_nickname">{{item01.nickname ? item01.nickname : '昵称'}}</van-col>
                   <van-col span="9" class="item_sex_age">
                     <van-icon name="flower-o" />
-                    {{item01.age}}岁
+                    {{item01.users_year ? new Date().getFullYear() - item01.users_year : '年龄'}}岁
                   </van-col>
                 </van-row>
               </div>
@@ -40,7 +40,7 @@
                   <van-icon name="like" color="#FF2877" size="25" />
                 </van-col>
                 <van-col span="6">
-                  <van-icon name="chat-o" dot color="#9BE1FF" size="25" />
+                  <van-icon name="chat-o" color="#9BE1FF" size="25" />
                 </van-col>
               </van-row>
             </van-grid-item>
@@ -139,15 +139,7 @@ export default {
     }
   },
   created () {
-    this.$http.post('/wpapi/member/find_friend', {
-      page: 1
-    })
-      .then((res) => {
-        console.log(res)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    this.getHomeData(1)
   },
   methods: {
     // 上拉刷新
@@ -163,6 +155,27 @@ export default {
         this.error = false
         this.finished = true
       }, 1000)
+    },
+    // tab 点击切换事件
+    homeSwitch (name, title) {
+      if (name === 0) {
+        // 推荐
+      } else if (name === 1) {
+        // 附近
+      }
+    },
+    // 获取推荐第一页数据
+    async getHomeData (page) {
+      const { data: res } = await this.$http.post('/wpapi/member/find_friend', {
+        page: page
+      })
+      if (res.status !== 200) {
+        return this.$notify({
+          type: 'danger',
+          message: res.msg
+        })
+      }
+      this.user_list = res.data.data
     }
   }
 }
@@ -192,6 +205,8 @@ export default {
   }
   .item_nickname {
     line-height: 40px;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
   i {
     vertical-align: middle;
