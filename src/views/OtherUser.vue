@@ -140,7 +140,20 @@ export default {
       }]
     }
   },
+  created () {
+    this.getUserInfo()
+  },
   methods: {
+    // 获取用户信息
+    getUserInfo () {
+      this.$http.post('/wpapi/me/select_users_info', {
+        users_id: 48,
+        token: '1ab47280a262de9cb7320cf16e3c6e6be7c85595b4a3fa7829806f7b69f1f5be',
+        bei_users_id: 1
+      }).then((res) => {
+        console.log(res)
+      })
+    }
   }
 }
 </script>

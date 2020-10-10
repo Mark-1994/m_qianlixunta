@@ -79,63 +79,8 @@ export default {
         title: '附近'
       }],
       // 首页 tab 列表数据
-      user_list: [{
-        id: 0,
-        nickname: '吴秀波',
-        headimg: 'http://admin.qianlixunta.com/upload/admin/article/thumbnail/20200807/nv.png',
-        sex: 1,
-        age: 18,
-        adress: '武汉'
-      }, {
-        id: 1,
-        nickname: '刘德华',
-        headimg: 'http://admin.qianlixunta.com/upload/admin/article/thumbnail/20200807/nv.png',
-        sex: 1,
-        age: 18,
-        adress: '武汉'
-      }, {
-        id: 2,
-        nickname: '刘德华',
-        headimg: 'http://admin.qianlixunta.com/upload/admin/article/thumbnail/20200807/nv.png',
-        sex: 1,
-        age: 18,
-        adress: '武汉'
-      }, {
-        id: 3,
-        nickname: '刘德华',
-        headimg: 'http://admin.qianlixunta.com/upload/admin/article/thumbnail/20200807/nv.png',
-        sex: 1,
-        age: 18,
-        adress: '武汉'
-      }, {
-        id: 4,
-        nickname: '刘德华',
-        headimg: 'http://admin.qianlixunta.com/upload/admin/article/thumbnail/20200807/nv.png',
-        sex: 1,
-        age: 18,
-        adress: '武汉'
-      }, {
-        id: 5,
-        nickname: '刘德华',
-        headimg: 'http://admin.qianlixunta.com/upload/admin/article/thumbnail/20200807/nv.png',
-        sex: 1,
-        age: 18,
-        adress: '武汉'
-      }, {
-        id: 6,
-        nickname: '刘德华',
-        headimg: 'http://admin.qianlixunta.com/upload/admin/article/thumbnail/20200807/nv.png',
-        sex: 1,
-        age: 18,
-        adress: '武汉'
-      }, {
-        id: 7,
-        nickname: '刘德华',
-        headimg: 'http://admin.qianlixunta.com/upload/admin/article/thumbnail/20200807/nv.png',
-        sex: 1,
-        age: 18,
-        adress: '武汉'
-      }]
+      user_list: [],
+      pages: 1
     }
   },
   created () {
@@ -144,17 +89,27 @@ export default {
   methods: {
     // 上拉刷新
     onRefresh () {
-      setTimeout(() => {
+      this.getHomeData(1, () => {
         this.isLoading = false
-      }, 1000)
+        this.pages = 1
+        this.finished = false
+      })
     },
-    // 下拉加载更多
+    // 底部加载更多
     onLoad () {
-      setTimeout(() => {
+      // setTimeout(() => {
+      //   this.loading = false
+      //   this.error = false
+      //   this.finished = true
+      // }, 1000)
+
+      this.pages += 1
+      this.keeponHomeData(this.pages, (flag) => {
         this.loading = false
-        this.error = false
-        this.finished = true
-      }, 1000)
+        if (flag) {
+          this.finished = true
+        }
+      })
     },
     // tab 点击切换事件
     homeSwitch (name, title) {
@@ -165,7 +120,7 @@ export default {
       }
     },
     // 获取推荐第一页数据
-    async getHomeData (page) {
+    async getHomeData (page, callback) {
       const { data: res } = await this.$http.post('/wpapi/member/find_friend', {
         page: page
       })
@@ -176,6 +131,20 @@ export default {
         })
       }
       this.user_list = res.data.data
+      if (!callback) return false
+      callback()
+    },
+    // 数据追加
+    async keeponHomeData (page, callback) {
+      const { data: res } = await this.$http.post('/wpapi/member/find_friend', {
+        page: page
+      })
+      if (res.status !== 200) return console.log('加载失败')
+      for (let i = 0; i < res.data.data.length; i++) {
+        this.user_list.push(res.data.data[i])
+      }
+      if (!callback) return false
+      callback(Boolean(res.data.current_page === res.data.last_page))
     }
   }
 }
