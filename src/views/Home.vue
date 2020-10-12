@@ -20,14 +20,14 @@
             @load="onLoad"
           >
           <van-grid :border="false" :column-num="2" :gutter="4" :center="false">
-            <van-grid-item v-for="item01 in user_list" :key="item01.id" to="/other_user">
+            <van-grid-item v-for="item01 in user_list" :key="item01.id" :to="'/other_user/' + item01.id">
               <div class="img_info_box">
-                <van-image width="100%" height="217" fit="fill" lazy-load :src="item01.head_portrait ? 'http://admin.qianlixunta.com'+item01.head_portrait : item01.head_portrait" radius="4" />
+                <van-image width="100%" height="217" fit="fill" lazy-load :src="item01.head_portrait ? 'http://admin.qianlixunta.com'+item01.head_portrait : 'http://admin.qianlixunta.com/upload/admin/article/thumbnail/20200807/nan.png'" radius="4" />
                 <van-row type="flex" justify="space-between" class="nickname_sex_age">
                   <van-col span="12" class="item_nickname">{{item01.nickname ? item01.nickname : '昵称'}}</van-col>
                   <van-col span="9" class="item_sex_age">
                     <van-icon name="flower-o" />
-                    {{item01.users_year ? new Date().getFullYear() - item01.users_year : '年龄'}}岁
+                    {{Number(item01.users_year) ? new Date().getFullYear() - item01.users_year : '年龄'}}岁
                   </van-col>
                 </van-row>
               </div>

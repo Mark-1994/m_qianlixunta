@@ -28,7 +28,7 @@ const routes = [
     component: () => import('../views/Login.vue')
   },
   {
-    path: '/other_user',
+    path: '/other_user/:id',
     name: 'OtherUser',
     component: () => import('../views/OtherUser.vue')
   },
@@ -66,6 +66,15 @@ const routes = [
 
 const router = new VueRouter({
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  console.log(to.path)
+  if (to.path === '/login') return next()
+  else if (to.path === '/index') return next()
+  const tokenStr = window.localStorage.getItem('token')
+  if (!tokenStr) return next('/login')
+  next()
 })
 
 export default router

@@ -62,7 +62,20 @@ export default {
   },
   methods: {
     // 登录按钮
-    onSubmit () {
+    async onSubmit () {
+      const { data: res } = await this.$http.post('/wpapi/register/login', {
+        phone: this.username,
+        password: this.password
+      })
+      if (res.status !== '200') return this.$notify(res.msg)
+      this.$notify({
+        type: 'success',
+        message: res.msg
+      })
+      window.localStorage.setItem('token', res.data.token)
+      window.localStorage.setItem('nickname', res.data.nickname)
+      window.localStorage.setItem('users_id', res.data.users_id)
+      this.$router.push('/index')
     }
   }
 }

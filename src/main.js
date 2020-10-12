@@ -76,6 +76,30 @@ Vue.use(Divider)
 Vue.use(Notify)
 
 axios.defaults.baseURL = 'http://admin.qianlixunta.com'
+axios.interceptors.request.use(config => {
+  const tokenStr = window.localStorage.getItem('token')
+  const usersIdStr = window.localStorage.getItem('users_id')
+  if (tokenStr && usersIdStr) {
+    if (config.method === 'post') {
+      config.data = {
+        token: tokenStr,
+        users_id: usersIdStr,
+        ...config.data
+      }
+    } else if (config.method === 'get') {
+      config.params = {
+        token: tokenStr,
+        users_id: usersIdStr,
+        ...config.params
+      }
+    }
+  } else {
+    // router.push('/login')
+  }
+  return config
+}, error => {
+  return Promise.reject(error)
+})
 Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
