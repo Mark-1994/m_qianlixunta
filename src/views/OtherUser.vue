@@ -1,7 +1,7 @@
 <template>
   <div class="other_user">
 
-    <van-tabs v-model="active" animated border swipeable>
+    <van-tabs v-model="active" animated border swipeable @change="otherUserChangeSwitch">
       <van-tab v-for="item in tab_title" :title="item.title" :key="item.id">
         <div class="user_info_box">
           <van-row>
@@ -22,9 +22,9 @@
                     <van-col span="7"><van-tag type="primary" size="large" color="#379AFD">{{Number(userInfo.users_year) ? new Date().getFullYear() - userInfo.users_year : '年龄'}}岁</van-tag></van-col>
                   </van-row>
                   <van-row type="flex" justify="space-between" style="margin-top: 1rem;">
-                    <van-col span="8"><van-tag size="large" color="#917FFE">{{userInfo.workplace ? userInfo.workplace : '城市'}}</van-tag></van-col>
-                    <van-col span="8"><van-tag size="large" color="#917FFE">{{userInfo.imp_marital_status ? userInfo.imp_marital_status : '婚姻'}}</van-tag></van-col>
-                    <van-col span="8"><van-tag size="large" color="#917FFE">{{userInfo.imp_education ? userInfo.imp_education : '学历'}}</van-tag></van-col>
+                    <van-col span="7"><van-tag size="large" color="#917FFE" style="display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.workplace ? userInfo.workplace : '城市'}}</van-tag></van-col>
+                    <van-col span="7"><van-tag size="large" color="#917FFE" style="display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.imp_marital_status ? userInfo.imp_marital_status : '婚姻'}}</van-tag></van-col>
+                    <van-col span="7"><van-tag size="large" color="#917FFE" style="display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.imp_education ? userInfo.imp_education : '学历'}}</van-tag></van-col>
                   </van-row>
                 </van-col>
               </van-row>
@@ -410,16 +410,26 @@ export default {
     }
   },
   created () {
-    this.getUserInfo()
+    this.getUserInfo(this.$route.params.id)
   },
   methods: {
     // 获取用户信息
-    async getUserInfo () {
+    async getUserInfo (beiUsersid) {
       const { data: res } = await this.$http.post('/wpapi/me/select_users_info', {
-        bei_users_id: this.$route.params.id
+        bei_users_id: beiUsersid
       })
       if (res.status !== '200') return this.$notify(res.msg)
       this.userInfo = res.data
+    },
+    // tab 滑动切换事件
+    otherUserChangeSwitch (name, title) {
+      if (name === 0) {
+        // TA
+        this.getUserInfo(this.$route.params.id)
+      } else if (name === 1) {
+        // 我的
+        this.getUserInfo(localStorage.getItem('users_id'))
+      }
     }
   }
 }

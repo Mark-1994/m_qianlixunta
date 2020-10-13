@@ -57,6 +57,7 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
+import wx from 'weixin-js-sdk'
 
 export default {
   name: 'Home',
@@ -85,6 +86,43 @@ export default {
   },
   created () {
     this.getHomeData(1)
+  },
+  mounted () {
+    // 微信分享
+    if (wx) {
+      this.$http.post('http://wxshare.qianlixunta.com/wxJssdk/getJssdk', { url: location.href }).then((response) => {
+        wx.config({
+          debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+          appId: response.data.appId, // 必填，公众号的唯一标识
+          timestamp: response.data.timestamp, // 必填，生成签名的时间戳
+          nonceStr: response.data.nonceStr, // 必填，生成签名的随机串
+          signature: response.data.signature, // 必填，签名，见附录1
+          jsApiList: ['updateTimelineShareData', 'updateAppMessageShareData'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        })
+
+        wx.ready(function () {
+          // 分享到朋友圈
+          wx.updateTimelineShareData({
+            title: '千里寻他官网',
+            desc: '千里寻他',
+            link: 'http://m.qianlixunta.com/',
+            imgUrl: 'http://m.qianlixunta.com/images/wx_share01.jpg'
+          })
+
+          // 分享给朋友
+          wx.updateAppMessageShareData({
+            title: '千里寻他官网',
+            desc: '千里寻他',
+            link: 'http://m.qianlixunta.com/',
+            imgUrl: 'http://m.qianlixunta.com/images/wx_share01.jpg'
+          })
+        })
+
+        wx.error(function (res) {
+          // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+        })
+      })
+    }
   },
   methods: {
     // 上拉刷新

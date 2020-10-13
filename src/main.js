@@ -37,7 +37,9 @@ import {
   DropdownMenu,
   DropdownItem,
   Divider,
-  Notify
+  Notify,
+  DatetimePicker,
+  Slider
 } from 'vant'
 import 'vant/lib/index.css'
 Vue.use(Button)
@@ -74,6 +76,8 @@ Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
 Vue.use(Divider)
 Vue.use(Notify)
+Vue.use(DatetimePicker)
+Vue.use(Slider)
 
 axios.defaults.baseURL = 'http://admin.qianlixunta.com'
 axios.interceptors.request.use(config => {

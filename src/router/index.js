@@ -61,6 +61,11 @@ const routes = [
     path: '/chat',
     name: 'Chat',
     component: () => import('../views/Chat.vue')
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: () => import('../views/Register.vue')
   }
 ]
 
@@ -71,7 +76,8 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   console.log(to.path)
   if (to.path === '/login') return next()
-  else if (to.path === '/index') return next()
+  if (to.path === '/index') return next()
+  if (to.path === '/register') return next()
   const tokenStr = window.localStorage.getItem('token')
   if (!tokenStr) return next('/login')
   next()

@@ -14,8 +14,10 @@ export default {
   data () {
     return {
       tabbar_active: 0,
-      users_id: window.localStorage.getItem('users_id')
+      users_id: window.localStorage.getItem('users_id') ? window.localStorage.getItem('users_id') : 0
     }
+  },
+  created () {
   }
 }
 </script>
