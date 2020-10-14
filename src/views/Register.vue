@@ -19,6 +19,7 @@
         label="出生日期"
         placeholder="点击选择时间"
         @click="showPicker = true"
+        :rules="[{ required: true, message: '请选择出生日期' }]"
       />
       <van-popup v-model="showPicker" round position="bottom">
         <van-datetime-picker
@@ -59,6 +60,7 @@
         label="学历"
         placeholder="点击选择学历"
         @click="showEducation = true"
+        :rules="[{ required: true, message: '请选择学历' }]"
       />
       <van-popup v-model="showEducation" round position="bottom">
         <van-picker
@@ -77,6 +79,7 @@
         label="工作地"
         placeholder="点击选择省市区"
         @click="showWorkPlace = true"
+        :rules="[{ required: true, message: '请填写工作地' }]"
       />
       <van-popup v-model="showWorkPlace" round position="bottom">
         <van-area
@@ -94,8 +97,9 @@
         label="月收入"
         placeholder="点击选择"
         @click="showMonthlySalary = true"
+        :rules="[{ required: true, message: '请填写月收入' }]"
       />
-      <van-popup v-model="showMonthlySalary" position="bottom">
+      <van-popup v-model="showMonthlySalary" round position="bottom">
         <van-picker
           show-toolbar
           :columns="columnsMonthlySalary"
@@ -104,27 +108,29 @@
         />
       </van-popup>
 
-      <van-field v-model="form.phone" type="tel" label="手机号" placeholder="请输入手机号" />
+      <van-field v-model="form.phone" type="tel" label="手机号" placeholder="请输入手机号" :rules="[{ required: true, message: '请填写手机号' }]" />
 
       <van-field
-        :name="form.code"
+        name="code"
         v-model="form.code"
         center
-        clearable
         label="短信验证码"
         placeholder="请输入短信验证码"
         :rules="[{ required: true, message: '请填写短信验证码' }]"
       >
         <template #button>
-          <van-button size="small" type="primary">发送验证码</van-button>
+          <van-button native-type="button" size="small" type="primary" @click="sendCode" :disabled="noSendCode">
+            <van-count-down :time="60 * 1000" format="ss" style="color: #fff;" v-if="showSendCode" @finish="resetSendCode" />
+            <template v-else>发送验证码</template>
+          </van-button>
         </template>
       </van-field>
 
-      <van-field v-model="form.password" type="password" label="创建密码" placeholder="设置密码" />
+      <van-field v-model="form.password" type="password" label="创建密码" placeholder="设置密码" :rules="[{ required: true, message: '请创建密码' }]" />
 
-      <van-field v-model="form.nickname" type="text" label="昵称" placeholder="设置昵称" />
+      <van-field v-model="form.nickname" type="text" label="昵称" placeholder="设置昵称" :rules="[{ required: true, message: '请填写昵称' }]" />
 
-      <van-field v-model="form.introduce_oneself" type="textarea" label="自我介绍" placeholder="设置自我介绍" />
+      <van-field v-model="form.introduce_oneself" type="textarea" label="自我介绍" placeholder="设置自我介绍" :rules="[{ required: true, message: '请填写自我介绍' }]" />
 
       <div style="margin: 16px;">
         <van-button round block type="info" native-type="submit">
@@ -164,14 +170,24 @@ export default {
       showWorkPlace: false,
       areaList: areaList,
       showMonthlySalary: false,
-      columnsMonthlySalary: ['3000元以下', '3001-5000元', '5001-8000元', '8001-12000元', '12001-20000元', '20001-50000元', '50000元以上']
+      columnsMonthlySalary: ['3000元以下', '3001-5000元', '5001-8000元', '8001-12000元', '12001-20000元', '20001-50000元', '50000元以上'],
+      // 验证码倒计时显示隐藏
+      showSendCode: false,
+      // 是否禁用发送验证码按钮
+      noSendCode: false
     }
   },
   methods: {
     // 注册提交事件
-    onSubmit () {
+    async onSubmit () {
       // 注册
-      console.log(this.form)
+      const { data: res } = await this.$http.post('/wpapi/register/login', this.form)
+      if (res.status !== '200') return this.$notify(res.msg)
+      this.$notify({
+        type: 'success',
+        message: res.msg
+      })
+      this.$router.push('/login')
     },
     // 选择出生日期的回调函数
     onConfirm (value) {
@@ -184,9 +200,11 @@ export default {
       this.showEducation = false
     },
     // 选择工作地的回调函数
-    onWorkPlace (value) {
-      console.log(value)
-      // this.form.workplace = value
+    onWorkPlace (values) {
+      this.form.workplace = values
+        .filter((item) => !!item)
+        .map((item) => item.name)
+        .join('/')
       this.showWorkPlace = false
     },
     // 选择月收入的回调函数
@@ -204,6 +222,24 @@ export default {
         return `${val}日`
       }
       return val
+    },
+    // 验证码发送事件
+    async sendCode () {
+      const { data: res } = await this.$http.post('/wpapi/register/send_sms', {
+        phone: this.form.phone
+      })
+      if (res.status !== '200') return this.$notify(res.msg)
+      this.$notify({
+        type: 'success',
+        message: res.msg
+      })
+      this.showSendCode = true
+      this.noSendCode = true
+    },
+    // 倒计时结束重置按钮状态
+    resetSendCode () {
+      this.showSendCode = false
+      this.noSendCode = false
     }
   }
 }

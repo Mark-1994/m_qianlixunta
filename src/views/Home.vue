@@ -81,11 +81,11 @@ export default {
       }],
       // 首页 tab 列表数据
       user_list: [],
-      pages: 1
+      pages: 0
     }
   },
   created () {
-    this.getHomeData(1)
+    // this.getHomeData(1)
   },
   mounted () {
     // 微信分享

@@ -30,12 +30,9 @@ export default {
   data () {
     return {
       option1: [
-        { text: '信息', value: 0 },
-        { text: '我的', value: 1 },
-        { text: '购买', value: 2 },
-        { text: '邂逅', value: 3 },
-        { text: '编辑我的信息', value: 4 },
-        { text: '消息列表', value: 5 }
+        { text: '编辑我的信息', value: 0 },
+        { text: '消息列表', value: 1 },
+        { text: '退出', value: 2 }
       ]
     }
   },
@@ -50,17 +47,12 @@ export default {
     },
     changeEvent (val) {
       if (val === 0) {
-        this.$router.push({ path: '/' })
-      } else if (val === 1) {
-        this.$router.push({ path: '/other_user' })
-      } else if (val === 2) {
-        this.$router.push({ path: '/member' })
-      } else if (val === 3) {
-        this.$router.push({ path: '/meet' })
-      } else if (val === 4) {
         this.$router.push({ path: '/me' })
-      } else if (val === 5) {
+      } else if (val === 1) {
         this.$router.push({ path: '/message_lists' })
+      } else if (val === 2) {
+        window.localStorage.clear()
+        this.$router.push('/index')
       }
     }
   }

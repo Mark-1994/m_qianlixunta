@@ -39,7 +39,8 @@ import {
   Divider,
   Notify,
   DatetimePicker,
-  Slider
+  Slider,
+  CountDown
 } from 'vant'
 import 'vant/lib/index.css'
 Vue.use(Button)
@@ -78,6 +79,7 @@ Vue.use(Divider)
 Vue.use(Notify)
 Vue.use(DatetimePicker)
 Vue.use(Slider)
+Vue.use(CountDown)
 
 axios.defaults.baseURL = 'http://admin.qianlixunta.com'
 axios.interceptors.request.use(config => {
