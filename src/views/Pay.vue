@@ -6,26 +6,26 @@
       <van-field name="radio" label="" style="padding: 0;">
         <template #input>
           <van-radio-group v-model="radio">
-            <van-radio name="1" icon-size="92px">
+            <van-radio name="1" icon-size="92px" style="border-radius: 6px;">
               <template #icon="props">
                 <div :class="props.checked ? 'activeRadio activeSize' : 'activeSize'" :style="'width:' + scrnWidth + 'px'">
                   <van-row type="flex" justify="space-between">
                     <van-col span="8" style="text-align: center;">
-                      <span style="font-size: 28px;">3000</span>元
+                      <span style="font-size: 28px;">{{payListInfo.vip_info.vip_price}}</span>元
                     </van-col>
                     <van-col span="8">
                       <van-row type="flex" justify="center" style="line-height: 46px;">
-                        <van-col>红娘一对一</van-col>
+                        <van-col>VIP</van-col>
                       </van-row>
                       <van-row type="flex" justify="center" style="line-height: 46px;">
-                        <van-col>12个月</van-col>
+                        <van-col>{{payListInfo.vip_info.vip_cycle}}个月</van-col>
                       </van-row>
                     </van-col>
                   </van-row>
                 </div>
               </template>
             </van-radio>
-            <van-radio name="2" icon-size="92px">
+            <!-- <van-radio name="2" icon-size="92px">
               <template #icon="props">
                 <div :class="props.checked ? 'activeRadio activeSize' : 'activeSize'" :style="'width:' + scrnWidth + 'px'">
                   <van-row type="flex" justify="space-between">
@@ -43,7 +43,7 @@
                   </van-row>
                 </div>
               </template>
-            </van-radio>
+            </van-radio> -->
           </van-radio-group>
         </template>
       </van-field>
@@ -105,14 +105,25 @@ export default {
     return {
       radio: '1',
       scrnWidth: 0,
-      payRadio: '1'
+      payRadio: '1',
+      // 支付列表
+      payListInfo: {}
     }
   },
   created () {
     // 获取屏幕的宽度
     this.scrnWidth = innerWidth - 40
+    this.getVipList()
   },
   methods: {
+    // 加入会员支付参数
+    async getVipList () {
+      const { data: res } = await this.$http.post('/wpapi/member/vip_list', {
+        vip_id: this.$store.state.vip_id
+      })
+      if (res.status !== '200') return this.$notify(res.msg)
+      this.payListInfo = res.data
+    }
   }
 }
 </script>

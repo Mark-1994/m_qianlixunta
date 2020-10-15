@@ -42,7 +42,7 @@
           <van-col span="24">开通会员</van-col>
         </van-row>
         <van-row>
-          <van-col span="24"><span style="font-size: 30px;">168</span>元/年</van-col>
+          <van-col span="24"><span style="font-size: 30px;">{{memberInfo.vip_price}}</span>元/年</van-col>
         </van-row>
         <van-button color="#FF2877" native-type="button" style="border-radius: 6px;margin: 40px 0;" @click="isVipNotify(0)">立即加入会员</van-button>
 
@@ -153,13 +153,16 @@ export default {
       // 168 VIP
       vipStatus: 0,
       // 红娘 VIP
-      superVipStatus: 0
+      superVipStatus: 0,
+      // 会员卡信息
+      memberInfo: {}
     }
   },
   created () {
     // 获取屏幕的宽度
     this.scrnWidth = innerWidth - 40
     this.isVip()
+    this.getMemberInfo()
   },
   methods: {
     // 检测用户身份
@@ -178,7 +181,7 @@ export default {
             message: '您已经是会员身份'
           })
         } else {
-          this.$router.push('/pay')
+          this.$router.push({ name: 'Pay' })
         }
       } else {
         if (this.superVipStatus) {
@@ -190,6 +193,13 @@ export default {
           this.$router.push('/pay')
         }
       }
+    },
+    // 会员卡信息
+    async getMemberInfo () {
+      const { data: res } = await this.$http.get('/wpapi/member/index')
+      if (res.status !== 200) return this.$notify(res.msg)
+      this.memberInfo = res.data
+      this.$store.commit('getid', res.data.id)
     }
   }
 }

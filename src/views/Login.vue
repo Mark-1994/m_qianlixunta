@@ -75,7 +75,8 @@ export default {
       window.localStorage.setItem('token', res.data.token)
       window.localStorage.setItem('nickname', res.data.nickname)
       window.localStorage.setItem('users_id', res.data.users_id)
-      this.$router.push('/index')
+      this.$store.commit('increment')
+      this.$router.push({ name: 'Home' })
     }
   }
 }
