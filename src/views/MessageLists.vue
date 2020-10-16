@@ -11,20 +11,28 @@
             finished-text="没有更多了"
             @load="onLoad"
           >
-
-            <van-cell center v-for="(item,index) in 5" :key="index" title-style="text-align:left;margin-left:10px;overflow:hidden;" to="chat">
-              <template #icon>
-                <van-image width="40" height="40" radius="2" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+            <van-swipe-cell v-for="item in unreadMessage.data" :key="item.id">
+              <template #left>
+                <van-button square type="warning" text="举报" style="height: 100%;" />
               </template>
-              <!-- 使用 title 插槽来自定义标题 -->
-              <template #title>
-                <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">小花</div>
-                <div style="color:rgba(0,0,0,.5);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">很高兴认识你很高兴认识你很高兴认识你</div>
+              <van-cell center title-style="text-align:left;margin-left:10px;overflow:hidden;" to="chat">
+                <template #icon>
+                  <van-image width="40" height="40" radius="2" :src="item.head_portrait ? `http://admin.qianlixunta.com${item.head_portrait}` : 'https://img.yzcdn.cn/vant/cat.jpeg'" />
+                </template>
+                <!-- 使用 title 插槽来自定义标题 -->
+                <template #title>
+                  <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">小花</div>
+                  <div style="color:rgba(0,0,0,.5);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{item.content}}</div>
+                </template>
+                <template #default>
+                  <span class="custom-title">{{timeFilter(item.time)}}</span>
+                </template>
+              </van-cell>
+              <template #right>
+                <van-button square type="warning" text="拉黑" style="height: 100%;" />
+                <van-button square type="danger" text="删除" style="height: 100%;" />
               </template>
-              <template #default>
-                <span class="custom-title">10:11</span>
-              </template>
-            </van-cell>
+            </van-swipe-cell>
 
           </van-list>
         </van-pull-refresh>
@@ -54,8 +62,13 @@ export default {
       // 下拉刷新显示隐藏
       refreshing: false,
       loading: false,
-      finished: false
+      finished: false,
+      // 未读消息
+      unreadMessage: {}
     }
+  },
+  created () {
+    this.getUnreadMessage(1)
   },
   methods: {
     // 下拉刷新事件
@@ -74,6 +87,18 @@ export default {
         // 数据加载完
         this.finished = true
       }, 1000)
+    },
+    // 未读消息
+    async getUnreadMessage (page) {
+      const { data: res } = await this.$http.post('/wpapi/member/is_read_message', {
+        page: page
+      })
+      if (res.status !== '200') return this.$notify(res.msg)
+      this.unreadMessage = res.data
+    },
+    // 消息时间过滤器
+    timeFilter (timer) {
+      return `${new Date(timer).getMonth() < 9 ? '0' + (new Date(timer).getMonth() + 1) : new Date(timer).getMonth() + 1}-${new Date(timer).getDate() < 9 ? '0' + new Date(timer).getDate() : new Date(timer).getDate()}`
     }
   }
 }

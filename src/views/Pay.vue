@@ -1,7 +1,7 @@
 <template>
   <div class="pay">
 
-    <van-form style="padding: 20px 20px 0;">
+    <van-form @submit="paypal" style="padding: 20px 20px 0;">
       <h4 style="text-align: left;">购买服务</h4>
       <van-field name="radio" label="" style="padding: 0;">
         <template #input>
@@ -11,14 +11,14 @@
                 <div :class="props.checked ? 'activeRadio activeSize' : 'activeSize'" :style="'width:' + scrnWidth + 'px'">
                   <van-row type="flex" justify="space-between">
                     <van-col span="8" style="text-align: center;">
-                      <span style="font-size: 28px;">{{payListInfo.vip_info.vip_price}}</span>元
+                      <span style="font-size: 28px;">{{payListInfo.vip_info.vip_price ? payListInfo.vip_info.vip_price : payRedListInfo.super_vip_info.price}}</span>元
                     </van-col>
                     <van-col span="8">
                       <van-row type="flex" justify="center" style="line-height: 46px;">
-                        <van-col>VIP</van-col>
+                        <van-col>{{payListInfo.vip_info.vip_cycle ? '会员' : '红娘一对一'}}</van-col>
                       </van-row>
                       <van-row type="flex" justify="center" style="line-height: 46px;">
-                        <van-col>{{payListInfo.vip_info.vip_cycle}}个月</van-col>
+                        <van-col>{{payListInfo.vip_info.vip_cycle ? payListInfo.vip_info.vip_cycle : payRedListInfo.super_vip_info.cycle}}个月</van-col>
                       </van-row>
                     </van-col>
                   </van-row>
@@ -60,7 +60,7 @@
       </van-row>
       <h4 style="text-align: left;">支付方式</h4>
 
-      <van-field name="radio" label="" style="background-color: transparent;">
+      <van-field name="payRadio" label="" style="background-color: transparent;">
         <template #input>
           <van-radio-group v-model="payRadio" direction="horizontal" style="width: 100%;display: flex;justify-content: space-between;">
             <van-radio name="1">
@@ -69,6 +69,7 @@
                 width="3rem"
                 height="3rem"
                 fit="fill"
+                style="vertical-align: middle;"
                 :src="require('../assets/ali_pay01.png')"
               />
             </van-radio>
@@ -78,6 +79,7 @@
                 width="3rem"
                 height="3rem"
                 fit="fill"
+                style="vertical-align: middle;"
                 :src="require('../assets/ali_pay01.png')"
               />
             </van-radio>
@@ -107,13 +109,29 @@ export default {
       scrnWidth: 0,
       payRadio: '1',
       // 支付列表
-      payListInfo: {}
+      payListInfo: {
+        vip_info: {
+          vip_price: '',
+          vip_cycle: ''
+        }
+      },
+      // 红娘支付列表
+      payRedListInfo: {
+        super_vip_info: {
+          price: '',
+          cycle: ''
+        }
+      }
     }
   },
   created () {
     // 获取屏幕的宽度
     this.scrnWidth = innerWidth - 40
-    this.getVipList()
+    if (!this.$store.state.serveType) {
+      this.getVipList()
+    } else {
+      this.getRedVipList()
+    }
   },
   methods: {
     // 加入会员支付参数
@@ -123,6 +141,34 @@ export default {
       })
       if (res.status !== '200') return this.$notify(res.msg)
       this.payListInfo = res.data
+    },
+    // 红娘一对一支付参数
+    async getRedVipList () {
+      const { data: res } = await this.$http.post('/wpapi/me/pay_red_show_list', {
+        super_vip_id: this.$store.state.super_vip_id
+      })
+      if (res.status !== '200') return this.$notify(res.msg)
+      this.payRedListInfo = res.data
+    },
+    // 支付事件
+    paypal () {
+      if (!this.$store.state.serveType) {
+        if (this.payRadio === '1') {
+          // 会员支付宝支付
+          console.log('会员支付宝支付会员卡id', this.$store.state.vip_id)
+        } else {
+          // 会员微信支付
+          console.log('会员微信支付会员卡id', this.$store.state.vip_id)
+        }
+      } else {
+        if (this.payRadio === '1') {
+          // 红娘支付宝支付
+          console.log('红娘支付宝支付会员卡id', this.$store.state.super_vip_id)
+        } else {
+          // 会员微信支付
+          console.log('红娘微信支付会员卡id', this.$store.state.super_vip_id)
+        }
+      }
     }
   }
 }
