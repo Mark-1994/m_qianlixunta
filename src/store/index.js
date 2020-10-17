@@ -11,7 +11,10 @@ export default new Vuex.Store({
     // 红娘卡id
     super_vip_id: 0,
     // 服务类型
-    serveType: 0
+    serveType: 0,
+    // 聊天页标识 0 私信 1 系统
+    chatType: 0,
+    faceToFaceId: 0
   },
   mutations: {
     increment (state) {
@@ -27,6 +30,11 @@ export default new Vuex.Store({
     // 红娘卡id
     getRedId (state, n) {
       state.super_vip_id = n
+    },
+    // 聊天页标识
+    getChatType (state, n) {
+      state.chatType = n.chatType
+      state.faceToFaceId = n.faceToFaceId
     }
   },
   actions: {

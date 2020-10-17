@@ -4,9 +4,9 @@
     <van-form @submit="onSubmit">
       <van-field>
         <template #input>
-          <van-row>
+          <van-row type="flex" align="center" justify="center" style="width: 100%;">
             <van-col>
-              <van-uploader :after-read="afterRead" />
+              <van-uploader :after-read="afterRead" v-model="fileList" :show-upload="!fileList.length" upload-icon="plus" />
             </van-col>
             <van-col>
               上传头像真实头像更容易找到另一半哦~
@@ -14,20 +14,19 @@
           </van-row>
         </template>
       </van-field>
-      <van-field>
+      <van-field label="照片">
         <template #input>
-          <h4>照片</h4>
-          <van-uploader :after-read="afterRead" />
+          <van-uploader v-model="uploader" :after-read="afterRead" :max-count="9" />
         </template>
       </van-field>
-      <van-field v-model="nickname" label="文本" placeholder="请输入用户名" />
+      <van-field v-model="nickname" label="昵称" placeholder="请输入用户名" />
       <van-field
         readonly
         clickable
         name="sex"
         :value="sex"
-        label="选择器"
-        placeholder="点击选择城市"
+        label="性别"
+        placeholder="点击选择"
         @click="showSex = true"
       />
       <van-popup v-model="showSex" position="bottom" round>
@@ -39,13 +38,15 @@
         />
       </van-popup>
 
+      <!-- 出生日期 -->
+
       <!-- 现住地 -->
       <van-field
         readonly
         clickable
         name="area"
         :value="areaValue"
-        label="地区选择"
+        label="现住地"
         placeholder="点击选择省市区"
         @click="showArea = true"
       />
@@ -83,21 +84,20 @@
         autosize
         label="自我介绍"
         type="textarea"
-        placeholder="介绍一下你自己把~"
+        placeholder="介绍一下你自己吧~"
       />
 
       <!-- 标签 -->
-      <van-field>
+      <van-field label="标签">
         <template #input>
-          <h4>标签</h4>
-          <van-tag type="primary" size="medium">旅游</van-tag>
-          <van-tag type="primary" size="medium">二次元</van-tag>
-          <van-tag type="primary" size="medium">狮子座</van-tag>
+          <van-tag color="#917FFE" size="medium" style="margin-right: 6px;">旅游</van-tag>
+          <van-tag color="#917FFE" size="medium" style="margin-right: 6px;">二次元</van-tag>
+          <van-tag color="#917FFE" size="medium" style="margin-right: 6px;">狮子座</van-tag>
         </template>
       </van-field>
 
       <!-- 生活方式 -->
-      <h4>生活方式</h4>
+      <h4 style="text-align: left;padding: 10px 16px;margin: 0;">生活方式</h4>
       <!-- 吸烟 -->
       <van-field
         readonly
@@ -152,7 +152,7 @@
           @cancel="showTime = false"
         />
       </van-popup>
-      <!-- 作息时间 -->
+      <!-- 交际圈子 -->
       <van-field
         readonly
         clickable
@@ -226,7 +226,7 @@ export default {
       // 显示隐藏婚姻状况选择器
       showMarriage: false,
       // 婚姻状况数据列表
-      columnsMarriage: ['未婚', '已婚', '离异'],
+      columnsMarriage: ['未婚', '离婚', '丧偶'],
       // 自我介绍
       introduction: '',
       // 吸烟选中的值
@@ -252,7 +252,15 @@ export default {
       // 显示隐藏交际圈子选项卡
       showContact: false,
       // 交际圈子选项
-      columnsContact: ['经常和朋友见面', '五湖四海']
+      columnsContact: ['经常和朋友见面', '五湖四海'],
+      // 头像
+      fileList: [{
+        url: 'https://img.yzcdn.cn/vant/sand.jpg'
+      }],
+      // 生活照
+      uploader: [{
+        url: 'https://img.yzcdn.cn/vant/leaf.jpg'
+      }]
     }
   },
   methods: {

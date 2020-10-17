@@ -1,7 +1,7 @@
 <template>
   <div class="message_lists">
 
-    <van-tabs v-model="active" animated border>
+    <van-tabs v-model="active" animated border @change="messageListsChangeSwitch">
       <van-tab v-for="item in tab_title" :title="item.title" :key="item.id">
 
         <van-pull-refresh v-model="refreshing" @refresh="onRefresh" success-text="刷新成功">
@@ -15,17 +15,21 @@
               <template #left>
                 <van-button square type="warning" text="举报" style="height: 100%;" />
               </template>
-              <van-cell center title-style="text-align:left;margin-left:10px;overflow:hidden;" to="chat">
+              <van-cell center title-style="text-align:left;margin-left:10px;overflow:hidden;" @click="goToChat(active, item.fromid)">
                 <template #icon>
-                  <van-image width="40" height="40" radius="2" :src="item.head_portrait ? `http://admin.qianlixunta.com${item.head_portrait}` : 'https://img.yzcdn.cn/vant/cat.jpeg'" />
+                  <van-image width="40" height="40" radius="2" style="overflow: unset;" :src="item.head_portrait ? `http://admin.qianlixunta.com${item.head_portrait}` : require('../assets/logo_currency01.png')">
+                    <template v-slot:default v-if="active">
+                      <van-icon dot style="position: absolute;top: 0;right: 0;" />
+                    </template>
+                  </van-image>
                 </template>
                 <!-- 使用 title 插槽来自定义标题 -->
                 <template #title>
-                  <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">小花</div>
+                  <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{item.fromname}}</div>
                   <div style="color:rgba(0,0,0,.5);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{item.content}}</div>
                 </template>
                 <template #default>
-                  <span class="custom-title">{{timeFilter(item.time)}}</span>
+                  <span class="custom-title">{{timeFilter(item.time ? item.time.replace(/-/g, '/') : '')}}</span>
                 </template>
               </van-cell>
               <template #right>
@@ -98,7 +102,31 @@ export default {
     },
     // 消息时间过滤器
     timeFilter (timer) {
+      if (!timer) return
       return `${new Date(timer).getMonth() < 9 ? '0' + (new Date(timer).getMonth() + 1) : new Date(timer).getMonth() + 1}-${new Date(timer).getDate() < 9 ? '0' + new Date(timer).getDate() : new Date(timer).getDate()}`
+    },
+    // tab 滑动切换事件
+    messageListsChangeSwitch (name, title) {
+      if (name === 0) {
+        this.getUnreadMessage(1)
+      } else if (name === 1) {
+        this.unreadMessage = {
+          data: [{
+            content: '欢迎来到千里寻他',
+            fromname: '消息小助手',
+            id: 0,
+            fromid: 0
+          }]
+        }
+      }
+    },
+    // 聊天页
+    goToChat (chatType, faceToFaceId) {
+      this.$store.commit('getChatType', {
+        chatType,
+        faceToFaceId
+      })
+      this.$router.push('/chat')
     }
   }
 }

@@ -6,7 +6,7 @@
       <van-button type="danger">危险按钮</van-button>
     </div> -->
     <app-header v-if="header_show"></app-header>
-    <router-view/>
+    <router-view @footer="footer"/>
     <app-footer v-if="footer_show"></app-footer>
     <div class="tabbar_placeholder" style="height: 50px;"></div>
   </div>
@@ -25,6 +25,11 @@ export default {
     return {
       header_show: true,
       footer_show: true
+    }
+  },
+  methods: {
+    footer (bool) {
+      this.footer_show = bool
     }
   }
 }

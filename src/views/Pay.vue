@@ -151,11 +151,16 @@ export default {
       this.payRedListInfo = res.data
     },
     // 支付事件
-    paypal () {
+    async paypal () {
       if (!this.$store.state.serveType) {
         if (this.payRadio === '1') {
           // 会员支付宝支付
-          console.log('会员支付宝支付会员卡id', this.$store.state.vip_id)
+          const { data: res } = await this.$http.get('/wpapi/member/zfb_pay', { params: { order_id: this.payListInfo.order_id } })
+          // const div = document.createElement('div')
+          // div.innerHTML = res
+          // document.body.appendChild(div)
+          // document.forms[1].submit()
+          console.log(res)
         } else {
           // 会员微信支付
           console.log('会员微信支付会员卡id', this.$store.state.vip_id)
