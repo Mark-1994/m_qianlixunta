@@ -88,7 +88,7 @@ axios.interceptors.request.use(config => {
   const tokenStr = window.localStorage.getItem('token')
   const usersIdStr = window.localStorage.getItem('users_id')
   if (tokenStr && usersIdStr) {
-    if (config.method === 'post') {
+    if (config.method === 'post' && config.url !== '/wpapi/register/up_head_portrait' && config.url !== '/wpapi/register/up_life_imgs') {
       config.data = {
         token: tokenStr,
         users_id: usersIdStr,

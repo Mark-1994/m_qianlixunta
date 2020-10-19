@@ -181,7 +181,7 @@ export default {
     // 注册提交事件
     async onSubmit () {
       // 注册
-      const { data: res } = await this.$http.post('/wpapi/register/login', this.form)
+      const { data: res } = await this.$http.post('/wpapi/register/form', this.form)
       if (res.status !== '200') return this.$notify(res.msg)
       this.$notify({
         type: 'success',
