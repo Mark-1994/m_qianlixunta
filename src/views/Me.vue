@@ -310,7 +310,7 @@ export default {
       // 身份证
       id_card: '',
       // 身高
-      imp_height: 160,
+      imp_height: 0,
       // 学历
       imp_education: '',
       // 学历显示隐藏
@@ -368,6 +368,7 @@ export default {
       formData.append('file', file.file)
       const { data: res } = await this.$http.post('/wpapi/register/up_life_imgs', formData)
       if (res.state !== 200) return this.$notify('图片上传失败')
+
       // this.pictureForm()
     },
     // 性别确定事件
@@ -487,7 +488,7 @@ export default {
     async pictureForm () {
       const upLifeImgs = []
       this.uploader.forEach((item) => {
-        upLifeImgs.push(item.url)
+        upLifeImgs.push(item.url.replace('http://admin.qianlixunta.com', ''))
       })
       const { data: res } = await this.$http.post('/wpapi/me/picture_form', {
         head_portrait: this.fileList[0].url.replace('http://admin.qianlixunta.com', ''),
