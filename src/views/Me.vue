@@ -455,7 +455,7 @@ export default {
     },
     // 个人资料数据
     async getUsersDetailInit () {
-      const { data: res } = await this.$http.post('/wpapi/me/improve_users_init')
+      const { data: res } = await this.$http.post('/wpapi/me/gzh_improve_users_init')
       if (res.status !== '200') return this.$notify(res.msg)
       this.name = res.data.name
       this.improve_sex = res.data.improve_sex ? '男' : '女'

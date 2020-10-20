@@ -132,6 +132,14 @@
 
       <van-field v-model="form.introduce_oneself" type="textarea" label="自我介绍" placeholder="设置自我介绍" :rules="[{ required: true, message: '请填写自我介绍' }]" />
 
+      <van-field name="tag_id" label="个性标签" :rules="[{ required: true, message: '请选择个性标签' }]">
+        <template #input>
+          <van-checkbox-group v-model="form.tag_id" direction="horizontal" :max="5">
+            <van-checkbox :name="item.id" shape="square" v-for="item in tagData" :key="item.id" style="width: 28%;margin: 6px;">{{item.tag_name}}</van-checkbox>
+          </van-checkbox-group>
+        </template>
+      </van-field>
+
       <div style="margin: 16px;">
         <van-button round block type="info" native-type="submit">
           注册
@@ -162,7 +170,7 @@ export default {
         password: '',
         nickname: '',
         introduce_oneself: '',
-        tag_id: ''
+        tag_id: []
       },
       showPicker: false,
       columns: ['高中及以下', '中专', '大专', '大学本科', '硕士', '博士'],
@@ -174,8 +182,13 @@ export default {
       // 验证码倒计时显示隐藏
       showSendCode: false,
       // 是否禁用发送验证码按钮
-      noSendCode: false
+      noSendCode: false,
+      // 复选框的数据
+      tagData: []
     }
+  },
+  created () {
+    this.getTagData()
   },
   methods: {
     // 注册提交事件
@@ -185,13 +198,14 @@ export default {
       if (res.status !== '200') return this.$notify(res.msg)
       this.$notify({
         type: 'success',
-        message: res.msg
+        // message: res.msg,
+        message: '注册成功'
       })
       this.$router.push('/login')
     },
     // 选择出生日期的回调函数
     onConfirm (value) {
-      this.form.birthday = `${new Date(value).getFullYear()}年${new Date(value).getMonth() < 9 ? '0' + (new Date(value).getMonth() + 1) : new Date(value).getMonth() + 1}月${new Date(value).getDate() < 10 ? '0' + new Date(value).getDate() : new Date(value).getDate()}日`
+      this.form.birthday = `${new Date(value).getFullYear()}.${new Date(value).getMonth() < 9 ? '0' + (new Date(value).getMonth() + 1) : new Date(value).getMonth() + 1}.${new Date(value).getDate() < 10 ? '0' + new Date(value).getDate() : new Date(value).getDate()}`
       this.showPicker = false
     },
     // 选择学历的回调函数
@@ -231,7 +245,8 @@ export default {
       if (res.status !== '200') return this.$notify(res.msg)
       this.$notify({
         type: 'success',
-        message: res.msg
+        // message: res.msg,
+        message: '短信已发送'
       })
       this.showSendCode = true
       this.noSendCode = true
@@ -240,6 +255,12 @@ export default {
     resetSendCode () {
       this.showSendCode = false
       this.noSendCode = false
+    },
+    // 获取个性标签的tag数据
+    async getTagData () {
+      const { data: res } = await this.$http.get('/wpapi/register/get_tag')
+      if (res.status !== '200') return this.$notify(res.msg)
+      this.tagData = res.data
     }
   }
 }

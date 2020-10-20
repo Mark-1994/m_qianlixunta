@@ -22,7 +22,7 @@
                     <van-col span="7"><van-tag type="primary" size="large" color="#379AFD">{{Number(userInfo.users_year) ? new Date().getFullYear() - userInfo.users_year : '年龄'}}岁</van-tag></van-col>
                   </van-row>
                   <van-row type="flex" justify="space-between" style="margin-top: 1rem;">
-                    <van-col span="7"><van-tag size="large" color="#917FFE" style="display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.workplace ? userInfo.workplace : '城市'}}</van-tag></van-col>
+                    <van-col span="7"><van-tag size="large" color="#917FFE" style="display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.address ? userInfo.address : '城市'}}</van-tag></van-col>
                     <van-col span="7"><van-tag size="large" color="#917FFE" style="display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.imp_marital_status ? userInfo.imp_marital_status : '婚姻'}}</van-tag></van-col>
                     <van-col span="7"><van-tag size="large" color="#917FFE" style="display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.imp_education ? userInfo.imp_education : '学历'}}</van-tag></van-col>
                   </van-row>
@@ -57,16 +57,7 @@
               <h4>标签</h4>
               <van-row gutter="10">
                 <van-col>
-                  <van-tag type="primary" color="#917FFE" size="large">旅游</van-tag>
-                </van-col>
-                <van-col>
-                  <van-tag type="primary" color="#917FFE" size="large">二次元</van-tag>
-                </van-col>
-                <van-col>
-                  <van-tag type="primary" color="#917FFE" size="large">狮子座</van-tag>
-                </van-col>
-                <van-col>
-                  <van-tag type="primary" color="#917FFE" size="large">吃货</van-tag>
+                  <van-tag type="primary" color="#917FFE" size="large" v-for="(item, index) in userInfo.tag_arr" :key="index" style="margin: 0 6px;">{{item}}</van-tag>
                 </van-col>
               </van-row>
             </van-col>
@@ -386,6 +377,20 @@
       </van-tab>
     </van-tabs>
 
+    <!-- 喜欢 & 发消息 -->
+    <van-row type="flex" style="position: fixed;bottom: 80px;right: 20px;flex-direction: column;" v-if="!active">
+      <van-col style="margin-bottom: 15px;">
+        <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="like-o" style="width: 76px; height: 76px;border-radius: 50%;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);">
+          喜欢
+        </van-button>
+      </van-col>
+      <van-col>
+        <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="chat-o" style="width: 76px; height: 76px;border-radius: 50%;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);">
+          发消息
+        </van-button>
+      </van-col>
+    </van-row>
+
   </div>
 </template>
 
@@ -409,17 +414,29 @@ export default {
       userInfo: {}
     }
   },
+  watch: {
+    $route: {
+      immediate: true,
+      handler (to, from) {
+        // if (to.path === '/other_user/0') {
+        //   this.active = 1
+        // }
+      }
+    }
+  },
   created () {
     this.getUserInfo(this.$route.params.id)
   },
   methods: {
     // 获取用户信息
     async getUserInfo (beiUsersid) {
+      // if (beiUsersid) return false
       const { data: res } = await this.$http.post('/wpapi/me/select_users_info', {
         bei_users_id: beiUsersid
       })
       if (res.status !== '200') return this.$notify(res.msg)
       this.userInfo = res.data
+      this.userInfo.tag_arr = res.tag_arr
     },
     // tab 滑动切换事件
     otherUserChangeSwitch (name, title) {
@@ -438,5 +455,11 @@ export default {
 <style lang="less">
   .user_info_box {
     padding: 12px;
+  }
+  .van-button__content {
+    flex-direction: column;
+    i {
+      font-size: 30px;
+    }
   }
 </style>

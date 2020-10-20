@@ -36,6 +36,8 @@ export default {
       ]
     }
   },
+  created () {
+  },
   methods: {
     onClickLeft () {
       if (window.history.length <= 1) {

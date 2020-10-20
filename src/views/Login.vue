@@ -5,7 +5,7 @@
       <div class="log_title_info">
         <van-row>
           <van-col span="24">
-            <van-image radius="10" width="73" height="73" src="http://admin.qianlixunta.com/upload/admin/article/thumbnail/20200807/nv.png" />
+            <van-image radius="10" width="73" height="73" :src="require('../assets/logo_currency01.png')" />
           </van-col>
         </van-row>
         <van-row>
@@ -35,7 +35,7 @@
           :rules="[{ required: true, message: '请填写密码' }]"
         />
         <van-row>
-          <van-col span="24" class="text_sigup">还没有账号？<router-link to="/register">注册</router-link></van-col>
+          <van-col span="24" class="text_sigup">还没有账号？<router-link to="/register">注册</router-link>&nbsp;<a href="javascript:;">忘记密码</a></van-col>
         </van-row>
         <div style="margin: 16px;">
           <van-button round block type="info" native-type="submit">
@@ -90,7 +90,7 @@ export default {
   }
   .login {
     height: 100%;
-    background: url(https://img.yzcdn.cn/vant/cat.jpeg) no-repeat center center / cover;
+    background: url(../assets/loginBgImg01.png) no-repeat center center / cover;
   }
   .log_title_info {
     margin: 0 0 50px;

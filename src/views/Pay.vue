@@ -80,7 +80,7 @@
                 height="3rem"
                 fit="fill"
                 style="vertical-align: middle;"
-                :src="require('../assets/ali_pay01.png')"
+                :src="require('../assets/wx_pay01.png')"
               />
             </van-radio>
           </van-radio-group>

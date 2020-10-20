@@ -57,10 +57,10 @@
           </p>
 
           <div class="col" style="display: flex;justify-content: space-between;width: 300px;margin: 0 auto;padding-bottom: 30px;">
-            <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="like-o" style="width: 76px;height: 76px;border-radius: 50%;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);">
+            <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="like-o" style="width: 76px;height: 76px;border-radius: 50%;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);" @click="like">
               喜欢
             </van-button>
-            <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="close" style="width: 76px;height: 76px;border-radius: 50%;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);">
+            <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="close" style="width: 76px;height: 76px;border-radius: 50%;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);" @click="nulike">
               不喜欢
             </van-button>
             <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="chat-o" style="width: 76px;height: 76px;border-radius: 50%;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);" to="chat">
