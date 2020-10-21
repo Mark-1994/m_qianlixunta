@@ -35,7 +35,11 @@
           :rules="[{ required: true, message: '请填写密码' }]"
         />
         <van-row>
-          <van-col span="24" class="text_sigup">还没有账号？<router-link to="/register">注册</router-link>&nbsp;<a href="javascript:;">忘记密码</a></van-col>
+          <van-col span="24" class="text_sigup">
+            <span>还没有账号？</span>
+            <router-link to="/register">注册</router-link>&nbsp;
+            <router-link to="/resetpwd">忘记密码</router-link>
+          </van-col>
         </van-row>
         <div style="margin: 16px;">
           <van-button round block type="info" native-type="submit">

@@ -85,13 +85,13 @@ export default {
       }],
       // 聊天数据
       list: [
-        {
-          id: 0,
-          nickname: '黎明',
-          headimg: 'https://img.yzcdn.cn/vant/cat.jpeg',
-          time: '2020/09/29 上午10:56:59',
-          content: '你好'
-        }
+        // {
+        //   id: 0,
+        //   nickname: '黎明',
+        //   headimg: 'https://img.yzcdn.cn/vant/cat.jpeg',
+        //   time: '2020/09/29 上午10:56:59',
+        //   content: '你好'
+        // }
       ],
       // 输入框的内容
       sms: '',
@@ -108,6 +108,8 @@ export default {
       // 系统消息
       this.getSystemMessages(1)
     }
+  },
+  mounted () {
   },
   destroyed () {
     this.$emit('footer', true)

@@ -182,9 +182,11 @@ export default {
             type: 'success',
             message: '您已经是会员身份'
           })
-        } else {
+        } else if (window.localStorage.getItem('openid')) {
           this.$store.commit('getServeType', type)
           this.$router.push({ name: 'Pay' })
+        } else {
+          location.href = 'http://admin.qianlixunta.com/wpapi/member/go_gzh'
         }
       } else {
         if (this.superVipStatus) {
@@ -192,10 +194,12 @@ export default {
             type: 'success',
             message: '您已经购买了红娘一对一专属服务'
           })
-        } else {
+        } else if (window.localStorage.getItem('openid')) {
           this.$store.commit('getServeType', type)
           this.$store.commit('getRedId', this.radio)
           this.$router.push('/pay')
+        } else {
+          location.href = 'http://admin.qianlixunta.com/wpapi/member/go_gzh'
         }
       }
     },

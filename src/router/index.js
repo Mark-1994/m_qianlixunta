@@ -66,6 +66,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: () => import('../views/Register.vue')
+  },
+  {
+    path: '/resetpwd',
+    name: 'ResetPwd',
+    component: () => import('../views/ResetPwd.vue')
   }
 ]
 
@@ -78,6 +83,7 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/login') return next()
   if (to.path === '/index') return next()
   if (to.path === '/register') return next()
+  if (to.path === '/resetpwd') return next()
   const tokenStr = window.localStorage.getItem('token')
   if (!tokenStr) return next('/login')
   next()

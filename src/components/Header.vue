@@ -17,7 +17,7 @@
       z-index=2>
       <template #right>
         <van-dropdown-menu>
-          <van-dropdown-item :options="option1" @change="changeEvent" />
+          <van-dropdown-item :options="loginStatus ? option1 : option2" @change="changeEvent" />
           <!-- <van-icon name="ellipsis" /> -->
         </van-dropdown-menu>
       </template>
@@ -33,7 +33,21 @@ export default {
         { text: '编辑我的信息', value: 0 },
         { text: '消息列表', value: 1 },
         { text: '退出', value: 2 }
-      ]
+      ],
+      option2: [
+        { text: '编辑我的信息', value: 0 },
+        { text: '消息列表', value: 1 }
+      ],
+      // 登陆状态
+      loginStatus: true
+    }
+  },
+  watch: {
+    $route: {
+      immediate: true,
+      handler (to, from) {
+        this.loginStatus = Boolean(window.localStorage.getItem('token'))
+      }
     }
   },
   created () {

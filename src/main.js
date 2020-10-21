@@ -43,7 +43,9 @@ import {
   CountDown,
   SwipeCell,
   Checkbox,
-  CheckboxGroup
+  CheckboxGroup,
+  Step,
+  Steps
 } from 'vant'
 import 'vant/lib/index.css'
 Vue.use(Button)
@@ -86,6 +88,8 @@ Vue.use(CountDown)
 Vue.use(SwipeCell)
 Vue.use(Checkbox)
 Vue.use(CheckboxGroup)
+Vue.use(Step)
+Vue.use(Steps)
 
 axios.defaults.baseURL = 'http://admin.qianlixunta.com'
 axios.interceptors.request.use(config => {
