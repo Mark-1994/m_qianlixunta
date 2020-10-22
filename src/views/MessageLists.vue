@@ -11,11 +11,11 @@
             finished-text="没有更多了"
             @load="onLoad"
           >
-            <van-swipe-cell v-for="item in unreadMessage.data" :key="item.id">
+            <van-swipe-cell v-for="(item, index) in unreadMessage" :key="index">
               <template #left>
                 <van-button square type="warning" text="举报" style="height: 100%;" />
               </template>
-              <van-cell center title-style="text-align:left;margin-left:10px;overflow:hidden;" @click="goToChat(active, item.fromid)">
+              <van-cell center title-style="text-align:left;margin-left:10px;overflow:hidden;" @click="goToChat(active, item.id)">
                 <template #icon>
                   <van-image width="40" height="40" radius="2" style="overflow: unset;" :src="item.head_portrait ? `http://admin.qianlixunta.com${item.head_portrait}` : require('../assets/logo_currency01.png')">
                     <template v-slot:default v-if="active">
@@ -25,7 +25,7 @@
                 </template>
                 <!-- 使用 title 插槽来自定义标题 -->
                 <template #title>
-                  <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{item.fromname}}</div>
+                  <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{item.nickname}}</div>
                   <div style="color:rgba(0,0,0,.5);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{item.content}}</div>
                 </template>
                 <template #default>
@@ -94,11 +94,9 @@ export default {
     },
     // 未读消息
     async getUnreadMessage (page) {
-      const { data: res } = await this.$http.post('/wpapi/member/is_read_message', {
-        page: page
-      })
-      if (res.status !== '200') return this.$notify(res.msg)
-      this.unreadMessage = res.data
+      const { data: res } = await this.$http.post('/wpapi/wx/private_letter_init')
+      if (res.status !== 200) return this.$notify(res.msg)
+      this.unreadMessage = res.data ? res.data : []
     },
     // 消息时间过滤器
     timeFilter (timer) {
@@ -110,14 +108,11 @@ export default {
       if (name === 0) {
         this.getUnreadMessage(1)
       } else if (name === 1) {
-        this.unreadMessage = {
-          data: [{
-            content: '欢迎来到千里寻他',
-            fromname: '消息小助手',
-            id: 0,
-            fromid: 0
-          }]
-        }
+        this.unreadMessage = [{
+          content: '欢迎来到千里寻他',
+          nickname: '消息小助手',
+          id: 0
+        }]
       }
     },
     // 聊天页

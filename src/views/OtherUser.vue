@@ -22,9 +22,9 @@
                     <van-col span="7"><van-tag type="primary" size="large" color="#379AFD">{{Number(userInfo.users_year) ? new Date().getFullYear() - userInfo.users_year : '年龄'}}岁</van-tag></van-col>
                   </van-row>
                   <van-row type="flex" justify="space-between" style="margin-top: 1rem;">
-                    <van-col span="7"><van-tag size="large" color="#917FFE" style="display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.address ? userInfo.address : '城市'}}</van-tag></van-col>
-                    <van-col span="7"><van-tag size="large" color="#917FFE" style="display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.imp_marital_status ? userInfo.imp_marital_status : '婚姻'}}</van-tag></van-col>
-                    <van-col span="7"><van-tag size="large" color="#917FFE" style="display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.imp_education ? userInfo.imp_education : '学历'}}</van-tag></van-col>
+                    <van-col span="7"><van-tag size="large" color="#917FFE" style="display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.workplace ? userInfo.workplace.split('省')[0] : '城市'}}</van-tag></van-col>
+                    <van-col span="7"><van-tag size="large" color="#917FFE" style="display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.marital_status ? userInfo.marital_status : '婚姻'}}</van-tag></van-col>
+                    <van-col span="7"><van-tag size="large" color="#917FFE" style="display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.education ? userInfo.education : '学历'}}</van-tag></van-col>
                   </van-row>
                 </van-col>
               </van-row>
@@ -379,13 +379,13 @@
 
     <!-- 喜欢 & 发消息 -->
     <van-row type="flex" style="position: fixed;bottom: 80px;right: 20px;flex-direction: column;" v-if="!active">
-      <van-col style="margin-bottom: 15px;">
+      <!-- <van-col style="margin-bottom: 15px;">
         <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="like-o" style="width: 76px; height: 76px;border-radius: 50%;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);">
           喜欢
         </van-button>
-      </van-col>
+      </van-col> -->
       <van-col>
-        <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="chat-o" style="width: 76px; height: 76px;border-radius: 50%;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);">
+        <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="chat-o" style="width: 76px; height: 76px;border-radius: 50%;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);" @click="goToChat(0, $route.params.id)">
           发消息
         </van-button>
       </van-col>
@@ -447,6 +447,14 @@ export default {
         // 我的
         this.getUserInfo(localStorage.getItem('users_id'))
       }
+    },
+    // 聊天页
+    goToChat (chatType, faceToFaceId) {
+      this.$store.commit('getChatType', {
+        chatType,
+        faceToFaceId
+      })
+      this.$router.push('/chat')
     }
   }
 }

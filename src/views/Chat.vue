@@ -14,7 +14,7 @@
                     height="40"
                     radius="2"
                     lazy-load
-                    :src="require('../assets/logo_currency01.png')"
+                    :src="item.fromid_head_portrait ? `http://admin.qianlixunta.com${item.fromid_head_portrait}` : require('../assets/logo_currency01.png')"
                   />
                 </van-col>
                 <van-col span="20" style="background-color: #fff;border-radius: 2px;padding: 10px;">
@@ -31,7 +31,7 @@
                     height="40"
                     radius="2"
                     lazy-load
-                    :src="require('../assets/logo_currency01.png')"
+                    :src="item.toid_head_portrait ? `http://admin.qianlixunta.com${item.toid_head_portrait}` : require('../assets/logo_currency01.png')"
                   />
                 </van-col>
               </van-row>

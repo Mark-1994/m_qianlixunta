@@ -155,13 +155,14 @@ export default {
       if (!this.$store.state.serveType) {
         if (this.payRadio === '1') {
           // 会员支付宝支付
-          const { data: res } = await this.$http.get('/wpapi/wx/gzh_zfb_vip_pay', { params: { order_osn: this.payListInfo.order_osn } })
-          if (res.status !== '200') return this.$notify(res.msg)
+          // const { data: res } = await this.$http.get('/wpapi/wx/gzh_zfb_vip_pay', { params: { order_osn: this.payListInfo.order_osn } })
+          // if (res.status !== '200') return this.$notify(res.msg)
           // const div = document.createElement('div')
           // div.innerHTML = res
           // document.body.appendChild(div)
           // document.forms[1].submit()
-          console.log(res)
+          // console.log(res)
+          location.href = `http://admin.qianlixunta.com/wpapi/wx/gzh_zfb_vip_pay?order_osn=${this.payListInfo.order_osn}`
         } else {
           // 会员微信支付
           console.log('会员微信支付会员卡id', this.$store.state.vip_id)
@@ -174,10 +175,11 @@ export default {
       } else {
         if (this.payRadio === '1') {
           // 红娘支付宝支付
-          console.log('红娘支付宝支付会员卡id', this.$store.state.super_vip_id)
-          const { data: res } = await this.$http.get('/wpapi/wx/gzh_zfb_super_vip_pay', { params: { order_osn: this.payRedListInfo.order_osn, super_vip_id: this.$store.state.super_vip_id } })
-          if (res.status !== 200) return this.$notify(res.msg)
-          console.log(res)
+          // console.log('红娘支付宝支付会员卡id', this.$store.state.super_vip_id)
+          // const { data: res } = await this.$http.get('/wpapi/wx/gzh_zfb_super_vip_pay', { params: { order_osn: this.payRedListInfo.order_osn, super_vip_id: this.$store.state.super_vip_id } })
+          // if (res.status !== 200) return this.$notify(res.msg)
+          // console.log(res)
+          location.href = `http://admin.qianlixunta.com/wpapi/wx/gzh_zfb_super_vip_pay?order_osn=${this.payRedListInfo.order_osn}&super_vip_id=${this.$store.state.super_vip_id}`
         } else {
           // 会员微信支付
           console.log('红娘微信支付会员卡id', this.$store.state.super_vip_id)

@@ -4,7 +4,7 @@
     <van-tabs v-model="active" animated border swipeable @change="memberChangeSwitch">
       <van-tab title="加入会员">
 
-        <van-image width="100%" height="154" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+        <van-image width="100%" height="154" :src="require('@/assets/member_banner01.png')" />
         <h4 style="font-size: 18px;"><van-icon name="gem" color="#FAB005" style="margin-right: 8px;" />会员权益</h4>
         <van-row gutter="10" style="margin: 0 10px;">
           <van-col span="8">

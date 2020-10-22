@@ -39,7 +39,7 @@ export default {
         { text: '消息列表', value: 1 }
       ],
       // 登陆状态
-      loginStatus: true
+      loginStatus: false
     }
   },
   watch: {
@@ -68,6 +68,7 @@ export default {
         this.$router.push({ path: '/message_lists' })
       } else if (val === 2) {
         window.localStorage.clear()
+        this.loginStatus = Boolean(window.localStorage.getItem('token'))
         this.$router.push('/index')
       }
     }
