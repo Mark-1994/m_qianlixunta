@@ -166,11 +166,12 @@ export default {
         } else {
           // 会员微信支付
           console.log('会员微信支付会员卡id', this.$store.state.vip_id)
-          const { data: res } = await this.$http.post('/wpapi/member/gzh_wx_pay', {
-            order_osn: this.payListInfo.order_osn,
-            openid: window.localStorage.getItem('openid')
-          })
-          if (res.status !== 200) return this.$notify(res.msg)
+          // const { data: res } = await this.$http.post('/wpapi/member/gzh_wx_pay', {
+          //   order_osn: this.payListInfo.order_osn,
+          //   openid: window.localStorage.getItem('openid')
+          // })
+          // if (res.status !== 200) return this.$notify(res.msg)
+          location.href = `http://admin.qianlixunta.com/wpapi/member/gzh_wx_pay?order_osn=${this.payListInfo.order_osn}&openid=${window.localStorage.getItem('openid')}`
         }
       } else {
         if (this.payRadio === '1') {
@@ -183,11 +184,12 @@ export default {
         } else {
           // 会员微信支付
           console.log('红娘微信支付会员卡id', this.$store.state.super_vip_id)
-          const { data: res } = await this.$http.post('/wpapi/member/gzh_wx_pay', {
-            order_osn: this.payRedListInfo.order_osn,
-            openid: window.localStorage.getItem('openid')
-          })
-          if (res.status !== 200) return this.$notify(res.msg)
+          // const { data: res } = await this.$http.post('/wpapi/member/gzh_wx_pay', {
+          //   order_osn: this.payRedListInfo.order_osn,
+          //   openid: window.localStorage.getItem('openid')
+          // })
+          // if (res.status !== 200) return this.$notify(res.msg)
+          location.href = `http://admin.qianlixunta.com/wpapi/member/gzh_wx_pay?order_osn=${this.payRedListInfo.order_osn}&openid=${window.localStorage.getItem('openid')}`
         }
       }
     }

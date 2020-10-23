@@ -23,9 +23,9 @@ export default {
       immediate: true, // 一旦监听到路由的变化立即执行
       handler (to, from) { // 回调函数，两个参数，to：当前的组件，from：上一个组件
         // this.activeMenu = to.path // 给activeMenu重新赋值为当前组件的路由地址
-        if (to.path === '/index' && from.path === '/login') {
-          this.users_id = this.$store.state.users_id
-        }
+        // if (to.path === '/index' && from.path === '/login') {
+        //   this.users_id = this.$store.state.users_id
+        // }
       }
     }
   },

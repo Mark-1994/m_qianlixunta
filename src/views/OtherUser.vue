@@ -2,7 +2,7 @@
   <div class="other_user">
 
     <van-tabs v-model="active" animated border swipeable @change="otherUserChangeSwitch">
-      <van-tab v-for="item in tab_title" :title="item.title" :key="item.id">
+      <van-tab v-for="item in tab_title" :title="item.title" :key="item.id" :disabled="!item.id && !parseInt($route.params.id)">
         <div class="user_info_box">
           <van-row>
             <van-col span="24">
@@ -22,7 +22,8 @@
                     <van-col span="7"><van-tag type="primary" size="large" color="#379AFD">{{Number(userInfo.users_year) ? new Date().getFullYear() - userInfo.users_year : '年龄'}}岁</van-tag></van-col>
                   </van-row>
                   <van-row type="flex" justify="space-between" style="margin-top: 1rem;">
-                    <van-col span="7"><van-tag size="large" color="#917FFE" style="display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.workplace ? userInfo.workplace.split('省')[0] : '城市'}}</van-tag></van-col>
+                    <!-- <van-col span="7"><van-tag size="large" color="#917FFE" style="display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.workplace ? userInfo.workplace.split('省')[0] : '城市'}}</van-tag></van-col> -->
+                    <van-col span="7"><van-tag size="large" color="#917FFE" style="display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.workplace ? userInfo.workplace.split('省/').length > 1 ? userInfo.workplace.split('省/')[1].split('市/')[0] : userInfo.workplace.split('市/').length > 1 ? userInfo.workplace.split('市/')[0] : userInfo.workplace.split('区/')[0] : '城市'}}</van-tag></van-col>
                     <van-col span="7"><van-tag size="large" color="#917FFE" style="display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.marital_status ? userInfo.marital_status : '婚姻'}}</van-tag></van-col>
                     <van-col span="7"><van-tag size="large" color="#917FFE" style="display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.education ? userInfo.education : '学历'}}</van-tag></van-col>
                   </van-row>
@@ -57,7 +58,7 @@
               <h4>标签</h4>
               <van-row gutter="10">
                 <van-col>
-                  <van-tag type="primary" color="#917FFE" size="large" v-for="(item, index) in userInfo.tag_arr" :key="index" style="margin: 0 6px;">{{item}}</van-tag>
+                  <van-tag type="primary" color="#917FFE" size="large" v-for="(item, index) in userInfo.tag_arr" :key="index" style="margin: 3px;">{{item}}</van-tag>
                 </van-col>
               </van-row>
             </van-col>
@@ -418,14 +419,20 @@ export default {
     $route: {
       immediate: true,
       handler (to, from) {
-        // if (to.path === '/other_user/0') {
-        //   this.active = 1
-        // }
+        if (to.path === '/other_user/0') {
+          this.active = 1
+          this.getUserInfo(window.localStorage.getItem('users_id'))
+        }
       }
     }
   },
   created () {
-    this.getUserInfo(this.$route.params.id)
+    if (parseInt(this.$route.params.id)) {
+      this.getUserInfo(this.$route.params.id)
+    } else {
+      this.active = 1
+      this.getUserInfo(window.localStorage.getItem('users_id'))
+    }
   },
   methods: {
     // 获取用户信息

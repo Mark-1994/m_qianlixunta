@@ -414,6 +414,21 @@ export default {
     },
     // 月薪事件
     onConfirmimpMonthlySalary (value) {
+      if (value === '3000元以下') {
+        value = '1000-3000'
+      } else if (value === '3001-5000元') {
+        value = '3001-5000'
+      } else if (value === '5001-8000元') {
+        value = '5001-8000'
+      } else if (value === '8001-12000元') {
+        value = '8001-12000'
+      } else if (value === '12001-20000元') {
+        value = '12001-20000'
+      } else if (value === '20001-50000元') {
+        value = '20001-50000'
+      } else if (value === '50000元以上') {
+        value = '50000-100000'
+      }
       this.imp_monthly_salary = value
       this.showimpMonthlySalary = false
     },
