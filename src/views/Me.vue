@@ -316,7 +316,7 @@ export default {
       // 学历显示隐藏
       showImpEducation: false,
       // 学历下拉框数据
-      columnsImpEducation: ['高中及以下', '中专', '大专', '大学本科', '硕士', '博士'],
+      columnsImpEducation: ['高中', '中专', '大专', '本科', '硕士', '博士'],
       // 月薪
       imp_monthly_salary: '',
       // 月薪下拉框显示隐藏

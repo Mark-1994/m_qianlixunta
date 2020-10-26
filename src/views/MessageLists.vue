@@ -15,7 +15,7 @@
               <template #left>
                 <van-button square type="warning" text="举报" style="height: 100%;" />
               </template>
-              <van-cell center title-style="text-align:left;margin-left:10px;overflow:hidden;" @click="goToChat(active, item.id)">
+              <van-cell center title-style="text-align:left;margin-left:10px;overflow:hidden;" @click="goToChat(active, item.id, item.nickname)">
                 <template #icon>
                   <van-image width="40" height="40" radius="2" style="overflow: unset;" :src="item.head_portrait ? `http://admin.qianlixunta.com${item.head_portrait}` : require('../assets/logo_currency01.png')">
                     <template v-slot:default v-if="active">
@@ -116,11 +116,12 @@ export default {
       }
     },
     // 聊天页
-    goToChat (chatType, faceToFaceId) {
+    goToChat (chatType, faceToFaceId, nickname) {
       this.$store.commit('getChatType', {
         chatType,
         faceToFaceId
       })
+      this.$store.dispatch('getActionsChatName', nickname)
       this.$router.push('/chat')
     }
   }

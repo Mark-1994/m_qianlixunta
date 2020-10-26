@@ -9,7 +9,7 @@
     </van-nav-bar> -->
 
     <van-nav-bar
-      title="千里寻TA"
+      :title="head_title"
       left-arrow
       @click-left="onClickLeft"
       fixed
@@ -30,16 +30,18 @@ export default {
   data () {
     return {
       option1: [
-        { text: '编辑我的信息', value: 0 },
+        // { text: '编辑我的信息', value: 0 },
         { text: '消息列表', value: 1 },
         { text: '退出', value: 2 }
       ],
       option2: [
-        { text: '编辑我的信息', value: 0 },
+        // { text: '编辑我的信息', value: 0 },
         { text: '消息列表', value: 1 }
       ],
       // 登陆状态
-      loginStatus: false
+      loginStatus: false,
+      // 页头
+      head_title: '千里寻TA'
     }
   },
   watch: {
@@ -47,6 +49,12 @@ export default {
       immediate: true,
       handler (to, from) {
         this.loginStatus = Boolean(window.localStorage.getItem('token'))
+        if (to.path === '/chat') {
+          this.head_title = this.$store.state.chatName
+        } else {
+          this.$store.dispatch('getActionsChatName', '千里寻TA')
+          this.head_title = this.$store.state.chatName
+        }
       }
     }
   },

@@ -173,7 +173,7 @@ export default {
         tag_id: []
       },
       showPicker: false,
-      columns: ['高中及以下', '中专', '大专', '大学本科', '硕士', '博士'],
+      columns: ['高中', '中专', '大专', '本科', '硕士', '博士'],
       showEducation: false,
       showWorkPlace: false,
       areaList: areaList,

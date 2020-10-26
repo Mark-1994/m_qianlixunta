@@ -9,11 +9,21 @@
             <template #default>
               <van-row type="flex" justify="space-between">
                 <van-col span="4" v-if="item.fromid != users_id">
+                  <!-- <van-image
+                    width="40"
+                    height="40"
+                    radius="2"
+                    lazy-load
+                    :src="item.fromid_head_portrait ? `http://admin.qianlixunta.com${item.fromid_head_portrait}` : require('../assets/logo_currency01.png')"
+                  /> -->
                   <van-image
                     width="40"
                     height="40"
                     radius="2"
                     lazy-load
+                    class="left_head"
+                    :alt="item.fromname"
+                    ref="leftHead"
                     :src="item.fromid_head_portrait ? `http://admin.qianlixunta.com${item.fromid_head_portrait}` : require('../assets/logo_currency01.png')"
                   />
                 </van-col>
@@ -26,12 +36,21 @@
                   <!-- <p>{{item.vip_price}}</p> -->
                 </van-col>
                 <van-col span="4" v-if="item.fromid == users_id" style="text-align: right;">
-                  <van-image
+                  <!-- <van-image
                     width="40"
                     height="40"
                     radius="2"
                     lazy-load
                     :src="item.toid_head_portrait ? `http://admin.qianlixunta.com${item.toid_head_portrait}` : require('../assets/logo_currency01.png')"
+                  /> -->
+                  <van-image
+                    width="40"
+                    height="40"
+                    radius="2"
+                    lazy-load
+                    class="right_head"
+                    :alt="item.fromname"
+                    :src="item.fromid_head_portrait ? `http://admin.qianlixunta.com${item.fromid_head_portrait}` : require('../assets/logo_currency01.png')"
                   />
                 </van-col>
               </van-row>
@@ -143,6 +162,9 @@ export default {
       })
       if (res.status !== '200') return this.$notify(res.msg)
       this.list = res.data
+      this.$nextTick(() => {
+        console.log(this.$refs.leftHead[0].alt)
+      })
     }
   }
 }

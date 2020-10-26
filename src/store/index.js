@@ -14,7 +14,9 @@ export default new Vuex.Store({
     serveType: 0,
     // 聊天页标识 0 私信 1 系统
     chatType: 0,
-    faceToFaceId: 0
+    faceToFaceId: 0,
+    // 聊天页姓名
+    chatName: '千里寻TA'
   },
   mutations: {
     increment (state) {
@@ -35,9 +37,20 @@ export default new Vuex.Store({
     getChatType (state, n) {
       state.chatType = n.chatType
       state.faceToFaceId = n.faceToFaceId
+    },
+    // 聊天页姓名
+    getChatName (state, n) {
+      state.chatName = n
     }
   },
   actions: {
+    // 聊天页姓名
+    getActionsChatName (context, n) {
+      // setTimeout(function () {
+      //   context.commit('getChatName', n)
+      // }, 2000)
+      context.commit('getChatName', n)
+    }
   },
   modules: {
   }

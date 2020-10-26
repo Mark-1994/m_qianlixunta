@@ -1,8 +1,8 @@
 <template>
   <div class="other_user">
 
-    <van-tabs v-model="active" animated border swipeable @change="otherUserChangeSwitch">
-      <van-tab v-for="item in tab_title" :title="item.title" :key="item.id" :disabled="!item.id && !parseInt($route.params.id)">
+    <van-tabs v-model="active" animated border swipeable @change="otherUserChangeSwitch" @disabled="onClickDisabled">
+      <van-tab v-for="item in tab_title" :title="!item.id && !parseInt($route.params.id) ? '编辑' : item.title" :key="item.id" :disabled="!item.id && !parseInt($route.params.id)">
         <div class="user_info_box">
           <van-row>
             <van-col span="24">
@@ -47,6 +47,8 @@
 
             </van-col>
           </van-row>
+
+          <div v-if="true">
           <van-row>
             <van-col span="24" style="text-align: left;">
               <h4>自我介绍</h4>
@@ -371,6 +373,7 @@
             </van-col>
 
           </van-row>
+          </div>
           <!-- <van-row>
             <van-col span="24">标签</van-col>
           </van-row> -->
@@ -412,7 +415,9 @@ export default {
         title: '我的'
       }],
       // 用户数据
-      userInfo: {}
+      userInfo: {},
+      // 编辑资料信息
+      usersDetailInit: {}
     }
   },
   watch: {
@@ -462,6 +467,16 @@ export default {
         faceToFaceId
       })
       this.$router.push('/chat')
+    },
+    // 禁用标签
+    onClickDisabled () {
+      this.$router.push('/me')
+    },
+    // 编辑资料信息展示
+    async getUsersDetailInit () {
+      const { data: res } = await this.$http.post('/wpapi/me/gzh_improve_users_init')
+      if (res.status !== '200') return this.$notify(res.msg)
+      this.usersDetailInit = res.data
     }
   }
 }
