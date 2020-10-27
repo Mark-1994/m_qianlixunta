@@ -354,22 +354,21 @@ export default {
     this.getPictureInit()
   },
   methods: {
+    // 上传头像图片
     async afterRead (file) {
       const formData = new FormData()
       formData.append('file', file.file)
       const { data: res } = await this.$http.post('/wpapi/register/up_head_portrait', formData)
       if (res.state !== 200) return this.$notify('图片上传失败')
       this.fileList[0].url = res.path ? `http://admin.qianlixunta.com${res.path}` : 'https://img.yzcdn.cn/vant/sand.jpg'
-
-      this.pictureForm()
     },
+    // 上传生活照
     async afterReadLifeImgs (file) {
       const formData = new FormData()
       formData.append('file', file.file)
       const { data: res } = await this.$http.post('/wpapi/register/up_life_imgs', formData)
       if (res.state !== 200) return this.$notify('图片上传失败')
-
-      // this.pictureForm()
+      this.uploader[this.uploader.length - 1].url = res.path
     },
     // 性别确定事件
     onConfirmSex (value) {
@@ -467,6 +466,9 @@ export default {
         type: 'success',
         message: res.msg
       })
+
+      // 头像和生活照上传
+      this.pictureForm()
     },
     // 个人资料数据
     async getUsersDetailInit () {

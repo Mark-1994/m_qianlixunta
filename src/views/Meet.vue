@@ -52,6 +52,14 @@
                   {{item.introduce_oneself}}
                 </div>
 
+                <div ref="users_id" style="display: none;">
+                  {{item.users_id}}
+                </div>
+
+                <div ref="nickname" style="display: none;">
+                  {{item.nickname}}
+                </div>
+
               </silder-like-item>
             </silder-like>
           </div>
@@ -67,7 +75,7 @@
             <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="close" style="width: 76px;height: 76px;border-radius: 50%;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);" @click="nulike">
               不喜欢
             </van-button> -->
-            <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="chat-o" style="width: 76px;height: 76px;border-radius: 50%;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);" @click="goToChat(0, users_id)">
+            <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="chat-o" style="width: 76px;height: 76px;border-radius: 50%;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);" @click="goToChat(0, users_id, nickname)">
               发消息
             </van-button>
             <!-- <button @click="addItem">增加一个item</button> -->
@@ -108,7 +116,9 @@ export default {
         { title: '卡片5', body: '内容5', img: 'https://img.yzcdn.cn/vant/cat.jpeg' }
       ],
       // 当前用户的 id 值
-      users_id: 0
+      users_id: 0,
+      // 当前用户的 昵称
+      nickname: ''
     }
   },
   created () {
@@ -124,13 +134,15 @@ export default {
       console.log('不喜欢', item)
       this.$refs.show_introduce_oneself[0].innerText = this.$refs.introduce_oneself[1].innerText
       this.dislike(item.users_id)
-      this.users_id = item.users_id
+      this.users_id = Number(this.$refs.users_id[1].innerText.trim())
+      this.nickname = this.$refs.nickname[1].innerText.trim()
     },
     like (item) {
       console.log('喜欢', item)
       this.$refs.show_introduce_oneself[0].innerText = this.$refs.introduce_oneself[1].innerText
       // this.dislike(item.users_id)
-      this.users_id = item.users_id
+      this.users_id = Number(this.$refs.users_id[1].innerText.trim())
+      this.nickname = this.$refs.nickname[1].innerText.trim()
     },
     // 获取所有用户
     async getAlluser () {
@@ -138,6 +150,7 @@ export default {
       if (res.status !== 200) return this.$notify(res.msg)
       this.items = res.data
       this.users_id = res.data[0].users_id
+      this.nickname = res.data[0].nickname
     },
     // 不喜欢标记
     async dislike (dislikeUsersid) {
@@ -147,11 +160,12 @@ export default {
       if (res.status !== 200) return this.$notify(res.msg)
     },
     // 聊天页
-    goToChat (chatType, faceToFaceId) {
+    goToChat (chatType, faceToFaceId, nickname) {
       this.$store.commit('getChatType', {
         chatType,
         faceToFaceId
       })
+      this.$store.dispatch('getActionsChatName', nickname)
       this.$router.push('/chat')
     }
   }

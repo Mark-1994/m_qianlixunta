@@ -389,7 +389,7 @@
         </van-button>
       </van-col> -->
       <van-col>
-        <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="chat-o" style="width: 76px; height: 76px;border-radius: 50%;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);" @click="goToChat(0, $route.params.id)">
+        <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="chat-o" style="width: 76px; height: 76px;border-radius: 50%;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);" @click="goToChat(0, $route.params.id, userInfo.nickname)">
           发消息
         </van-button>
       </van-col>
@@ -461,11 +461,12 @@ export default {
       }
     },
     // 聊天页
-    goToChat (chatType, faceToFaceId) {
+    goToChat (chatType, faceToFaceId, nickname) {
       this.$store.commit('getChatType', {
         chatType,
         faceToFaceId
       })
+      this.$store.dispatch('getActionsChatName', nickname)
       this.$router.push('/chat')
     },
     // 禁用标签
