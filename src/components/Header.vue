@@ -22,6 +22,18 @@
         </van-dropdown-menu>
       </template>
     </van-nav-bar>
+
+    <div class="activeWindow" style="position: fixed;right: 0;bottom: 180px;z-index: 999;" v-if="showActiveWindow">
+      <router-link to="/member">
+        <van-image
+          width="8rem"
+          height="8rem"
+          fit="contain"
+          :src="require('../assets/free-tips01.jpg')"
+        />
+      </router-link>
+    </div>
+
   </div>
 </template>
 
@@ -31,17 +43,19 @@ export default {
     return {
       option1: [
         // { text: '编辑我的信息', value: 0 },
-        { text: '消息列表', value: 1 },
+        // { text: '消息列表', value: 1 },
         { text: '退出', value: 2 }
       ],
       option2: [
         // { text: '编辑我的信息', value: 0 },
-        { text: '消息列表', value: 1 }
+        // { text: '消息列表', value: 1 }
       ],
       // 登陆状态
       loginStatus: false,
       // 页头
-      head_title: '千里寻TA'
+      head_title: '千里寻TA',
+      // 显示隐藏活动浮窗
+      showActiveWindow: false
     }
   },
   watch: {
@@ -54,6 +68,9 @@ export default {
         } else {
           this.$store.dispatch('getActionsChatName', '千里寻TA')
           this.head_title = this.$store.state.chatName
+        }
+        if (window.localStorage.getItem('token')) {
+          this.isWhetherVip()
         }
       }
     }
@@ -78,6 +95,17 @@ export default {
         window.localStorage.clear()
         this.loginStatus = Boolean(window.localStorage.getItem('token'))
         this.$router.push('/index')
+        this.showActiveWindow = Boolean(window.localStorage.getItem('token'))
+      }
+    },
+    // 检测用户身份
+    async isWhetherVip () {
+      const { data: res } = await this.$http.post('/wpapi/member/is_vip')
+      if (res.status !== 200) return this.$notify(res.msg)
+      if (!res.data.vip_status) {
+        this.showActiveWindow = true
+      } else {
+        this.showActiveWindow = false
       }
     }
   }

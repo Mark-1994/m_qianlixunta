@@ -34,7 +34,7 @@
               <van-row type="flex" justify="space-between" align="center">
                 <van-col span="12">
                   <van-icon name="location" color="#D5004E" size="25" />
-                  武汉
+                  {{item01.workplace.split('/')[0].replace(/省|市/, '')}}
                 </van-col>
                 <van-col span="6" offset="2">
                   <van-icon name="like" color="#FF2877" size="25" />
@@ -103,16 +103,16 @@ export default {
         wx.ready(function () {
           // 分享到朋友圈
           wx.updateTimelineShareData({
-            title: '千里寻他官网',
-            desc: '千里寻他',
+            title: '千里寻他-征婚、交友、相亲，武汉单身婚恋平台',
+            desc: '武汉千里寻他致力于为同城单身优质男女创造一个真实可靠一对一的相亲交友平台',
             link: 'http://m.qianlixunta.com/',
             imgUrl: 'http://m.qianlixunta.com/images/wx_share01.jpg'
           })
 
           // 分享给朋友
           wx.updateAppMessageShareData({
-            title: '千里寻他官网',
-            desc: '千里寻他',
+            title: '千里寻他-征婚、交友、相亲，武汉单身婚恋平台',
+            desc: '武汉千里寻他致力于为同城单身优质男女创造一个真实可靠一对一的相亲交友平台',
             link: 'http://m.qianlixunta.com/',
             imgUrl: 'http://m.qianlixunta.com/images/wx_share01.jpg'
           })

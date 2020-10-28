@@ -2,7 +2,7 @@
   <div class="other_user">
 
     <van-tabs v-model="active" animated border swipeable @change="otherUserChangeSwitch" @disabled="onClickDisabled">
-      <van-tab v-for="item in tab_title" :title="!item.id && !parseInt($route.params.id) ? '编辑' : item.title" :key="item.id" :disabled="!item.id && !parseInt($route.params.id)">
+      <van-tab v-for="item in parseInt($route.params.id) ? tab_title1 : tab_title2" :title="!item.id && !parseInt($route.params.id) ? '编辑' : item.title" :key="item.id" :disabled="(!item.id || item.id === 2) && !parseInt($route.params.id)">
         <div class="user_info_box">
           <van-row>
             <van-col span="24">
@@ -49,13 +49,100 @@
           </van-row>
 
           <div v-if="true">
-          <van-row>
+          <!-- 我的资料 -->
+          <van-row v-if="active">
+            <van-col span="24" style="text-align: left;">
+              <h4>姓名</h4>
+              <p style="color: rgba(0,0,0,.4)">{{usersDetailInit.name}}</p>
+            </van-col>
+          </van-row>
+          <van-row v-if="active">
+            <van-col span="24" style="text-align: left;">
+              <h4>性别</h4>
+              <p style="color: rgba(0,0,0,.4)">{{usersDetailInit.improve_sex ? '男' : '女'}}</p>
+            </van-col>
+          </van-row>
+          <van-row v-if="active">
+            <van-col span="24" style="text-align: left;">
+              <h4>出生日期</h4>
+              <p style="color: rgba(0,0,0,.4)">{{usersDetailInit.birth_day}}</p>
+            </van-col>
+          </van-row>
+          <van-row v-if="active">
+            <van-col span="24" style="text-align: left;">
+              <h4>生肖</h4>
+              <p style="color: rgba(0,0,0,.4)">{{usersDetailInit.the_chinese_zodiac}}</p>
+            </van-col>
+          </van-row>
+          <van-row v-if="active">
+            <van-col span="24" style="text-align: left;">
+              <h4>星座</h4>
+              <p style="color: rgba(0,0,0,.4)">{{usersDetailInit.constellation}}</p>
+            </van-col>
+          </van-row>
+          <van-row v-if="active">
+            <van-col span="24" style="text-align: left;">
+              <h4>婚姻状况</h4>
+              <p style="color: rgba(0,0,0,.4)">{{usersDetailInit.imp_marital_status}}</p>
+            </van-col>
+          </van-row>
+          <van-row v-if="active">
+            <van-col span="24" style="text-align: left;">
+              <h4>身份证</h4>
+              <p style="color: rgba(0,0,0,.4)">{{usersDetailInit.id_card}}</p>
+            </van-col>
+          </van-row>
+          <van-row v-if="active">
+            <van-col span="24" style="text-align: left;">
+              <h4>身高</h4>
+              <p style="color: rgba(0,0,0,.4)">{{usersDetailInit.imp_height}}</p>
+            </van-col>
+          </van-row>
+          <van-row v-if="active">
+            <van-col span="24" style="text-align: left;">
+              <h4>学历</h4>
+              <p style="color: rgba(0,0,0,.4)">{{usersDetailInit.imp_education}}</p>
+            </van-col>
+          </van-row>
+          <van-row v-if="active">
+            <van-col span="24" style="text-align: left;">
+              <h4>月薪</h4>
+              <p style="color: rgba(0,0,0,.4)">{{usersDetailInit.imp_monthly_salary}}</p>
+            </van-col>
+          </van-row>
+          <van-row v-if="active">
+            <van-col span="24" style="text-align: left;">
+              <h4>现住地</h4>
+              <p style="color: rgba(0,0,0,.4)">{{usersDetailInit.address}}</p>
+            </van-col>
+          </van-row>
+          <van-row v-if="active">
+            <van-col span="24" style="text-align: left;">
+              <h4>有无子女</h4>
+              <p style="color: rgba(0,0,0,.4)">{{usersDetailInit.is_children ? '有' : '无'}}</p>
+            </van-col>
+          </van-row>
+          <van-row v-if="active">
+            <van-col span="24" style="text-align: left;">
+              <h4>血型</h4>
+              <p style="color: rgba(0,0,0,.4)">{{usersDetailInit.blood_type}}</p>
+            </van-col>
+          </van-row>
+          <van-row v-if="active">
+            <van-col span="24" style="text-align: left;">
+              <h4>购车情况</h4>
+              <p style="color: rgba(0,0,0,.4)">{{usersDetailInit.car_type ? '有' : '无'}}</p>
+            </van-col>
+          </van-row>
+
+          <!-- 他人资料 -->
+          <van-row v-if="!active">
             <van-col span="24" style="text-align: left;">
               <h4>自我介绍</h4>
               <p style="color: rgba(0,0,0,.4)">{{userInfo.introduce_oneself}}</p>
             </van-col>
           </van-row>
-          <van-row>
+          <van-row v-if="!active">
             <van-col span="24" style="text-align: left;">
               <h4>标签</h4>
               <van-row gutter="10">
@@ -65,8 +152,50 @@
               </van-row>
             </van-col>
           </van-row>
-          <van-row>
+          <van-row v-if="!active">
             <van-col span="24" style="text-align: left;">
+              <h4>性别</h4>
+              <p style="color: rgba(0,0,0,.4)">{{userInfo.sex ? '男' : '女'}}</p>
+            </van-col>
+          </van-row>
+          <van-row v-if="!active">
+            <van-col span="24" style="text-align: left;">
+              <h4>出生日期</h4>
+              <p style="color: rgba(0,0,0,.4)">{{userInfo.birthday}}</p>
+            </van-col>
+          </van-row>
+          <van-row v-if="!active">
+            <van-col span="24" style="text-align: left;">
+              <h4>婚姻状况</h4>
+              <p style="color: rgba(0,0,0,.4)">{{userInfo.marital_status}}</p>
+            </van-col>
+          </van-row>
+          <van-row v-if="!active">
+            <van-col span="24" style="text-align: left;">
+              <h4>身高</h4>
+              <p style="color: rgba(0,0,0,.4)">{{userInfo.height}}</p>
+            </van-col>
+          </van-row>
+          <van-row v-if="!active">
+            <van-col span="24" style="text-align: left;">
+              <h4>学历</h4>
+              <p style="color: rgba(0,0,0,.4)">{{userInfo.education}}</p>
+            </van-col>
+          </van-row>
+          <van-row v-if="!active">
+            <van-col span="24" style="text-align: left;">
+              <h4>工作地</h4>
+              <p style="color: rgba(0,0,0,.4)">{{userInfo.workplace}}</p>
+            </van-col>
+          </van-row>
+          <van-row v-if="!active">
+            <van-col span="24" style="text-align: left;">
+              <h4>月收入</h4>
+              <p style="color: rgba(0,0,0,.4)">{{userInfo.monthly_salary}}</p>
+            </van-col>
+          </van-row>
+          <van-row>
+            <van-col span="24" style="text-align: left;" v-if="false">
               <h4>生活方式</h4>
               <van-row style="line-height: 30px;">
                 <van-col>
@@ -137,7 +266,7 @@
             </van-col>
 
             <!-- 婚姻观念 -->
-            <van-col span="24" style="text-align: left;">
+            <van-col span="24" style="text-align: left;" v-if="false">
               <h4>婚姻观念</h4>
               <van-row style="line-height: 30px;">
                 <van-col>
@@ -250,7 +379,7 @@
             </van-col>
 
             <!-- 经济实力 -->
-            <van-col span="24" style="text-align: left;">
+            <van-col span="24" style="text-align: left;" v-if="false">
               <h4>经济实力</h4>
               <van-row style="line-height: 30px;">
                 <van-col>
@@ -273,7 +402,7 @@
             </van-col>
 
             <!-- 体型外貌 -->
-            <van-col span="24" style="text-align: left;">
+            <van-col span="24" style="text-align: left;" v-if="false">
               <h4>体型外貌</h4>
               <van-row style="line-height: 30px;">
                 <van-col>
@@ -326,7 +455,7 @@
             </van-col>
 
             <!-- 兴趣爱好 -->
-            <van-col span="24" style="text-align: left;">
+            <van-col span="24" style="text-align: left;" v-if="false">
               <h4>兴趣爱好</h4>
               <van-row style="line-height: 30px;">
                 <van-col>
@@ -407,12 +536,23 @@ export default {
     return {
       active: 0,
       // 首页两个 tab title
-      tab_title: [{
+      tab_title1: [{
         id: 0,
         title: 'TA'
       }, {
         id: 1,
         title: '我的'
+      }],
+      // 首页两个 tab title
+      tab_title2: [{
+        id: 0,
+        title: 'TA'
+      }, {
+        id: 1,
+        title: '我的'
+      }, {
+        id: 2,
+        title: '消息'
       }],
       // 用户数据
       userInfo: {},
@@ -437,6 +577,7 @@ export default {
     } else {
       this.active = 1
       this.getUserInfo(window.localStorage.getItem('users_id'))
+      this.getUsersDetailInit()
     }
   },
   methods: {
@@ -458,6 +599,7 @@ export default {
       } else if (name === 1) {
         // 我的
         this.getUserInfo(localStorage.getItem('users_id'))
+        this.getUsersDetailInit()
       }
     },
     // 聊天页
@@ -470,8 +612,12 @@ export default {
       this.$router.push('/chat')
     },
     // 禁用标签
-    onClickDisabled () {
-      this.$router.push('/me')
+    onClickDisabled (name, title) {
+      if (!name) {
+        this.$router.push('/me')
+      } else if (name === 2) {
+        this.$router.push('/message_lists')
+      }
     },
     // 编辑资料信息展示
     async getUsersDetailInit () {
