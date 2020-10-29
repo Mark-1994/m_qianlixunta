@@ -173,7 +173,7 @@ export default {
 </script>
 
 <style lang="less">
-  .van-button__content {
+  .wrap .van-button__content {
     flex-direction: column;
     i {
       font-size: 30px;

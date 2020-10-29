@@ -85,7 +85,13 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/register') return next()
   if (to.path === '/resetpwd') return next()
   const tokenStr = window.localStorage.getItem('token')
+  const isVip = window.localStorage.getItem('isVip')
   if (!tokenStr) return next('/login')
+  if (to.path === '/member') return next()
+  if (to.path === '/meet') return next()
+  if (to.path === '/other_user/0') return next()
+  if (to.path === '/pay') return next()
+  if (isVip === 'true') return next('/member')
   next()
 })
 

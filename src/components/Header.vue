@@ -26,12 +26,22 @@
     <div class="activeWindow" style="position: fixed;right: 0;bottom: 180px;z-index: 999;" v-if="showActiveWindow">
       <router-link to="/member">
         <van-image
-          width="8rem"
-          height="8rem"
           fit="contain"
-          :src="require('../assets/free-tips01.jpg')"
+          :src="require('../assets/free-tips03.png')"
         />
       </router-link>
+    </div>
+
+    <div class="activeVipAd" style="position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);z-index: 999;" v-if="showVipAd">
+      <router-link to="/member">
+        <van-image
+          width="18rem"
+          height="18rem"
+          fit="contain"
+          :src="require('../assets/active_vip_ad01.png')"
+        />
+      </router-link>
+      <van-button @click="closeVipAd" icon="cross" round plain  color="#000" size="small" />
     </div>
 
   </div>
@@ -55,7 +65,9 @@ export default {
       // 页头
       head_title: '千里寻TA',
       // 显示隐藏活动浮窗
-      showActiveWindow: false
+      showActiveWindow: false,
+      // 显示隐藏广告浮窗
+      showVipAd: false
     }
   },
   watch: {
@@ -96,6 +108,7 @@ export default {
         this.loginStatus = Boolean(window.localStorage.getItem('token'))
         this.$router.push('/index')
         this.showActiveWindow = Boolean(window.localStorage.getItem('token'))
+        this.showVipAd = false
       }
     },
     // 检测用户身份
@@ -104,9 +117,17 @@ export default {
       if (res.status !== 200) return this.$notify(res.msg)
       if (!res.data.vip_status) {
         this.showActiveWindow = true
+        window.localStorage.setItem('isVip', true)
+        this.showVipAd = true
       } else {
         this.showActiveWindow = false
+        window.localStorage.setItem('isVip', false)
+        this.showVipAd = false
       }
+    },
+    // 关闭广告弹窗
+    closeVipAd () {
+      this.showVipAd = false
     }
   }
 }
@@ -131,5 +152,25 @@ export default {
     transform: translateY(-50%) rotate(-90deg) !important;
     border: 0 !important;
     margin-top: 0 !important;
+  }
+  @keyframes scaleDraw {
+    0% {
+      transform: scale(1);
+    }
+    25% {
+      transform: scale(1.1);
+    }
+    50% {
+      transform: scale(1);
+    }
+    75% {
+      transform: scale(1.1);
+    }
+  }
+  .activeVipAd img {
+    animation-name: scaleDraw; /*关键帧名称*/
+    animation-timing-function: ease-in-out; /*动画的速度曲线*/
+    animation-iteration-count: infinite;  /*动画播放的次数*/
+    animation-duration: 5s; /*动画所花费的时间*/
   }
 </style>

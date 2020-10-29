@@ -636,7 +636,7 @@ export default {
   .van-button__content {
     flex-direction: column;
     i {
-      font-size: 30px;
+      // font-size: 30px;
     }
   }
 </style>
