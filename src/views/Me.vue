@@ -126,10 +126,13 @@
         <van-field name="imp_height" v-model="imp_height" label="身高" placeholder="请输入身高" type="number" />
       </van-cell-group> -->
 
-      <van-field name="imp_height" label="身高">
+      <van-field name="imp_height" label="身高" style="overflow: unset;">
         <template #input>
-          <van-slider v-model="imp_height" bar-height="4px" :min="130" :max="210">
+          <van-slider v-model="imp_height" bar-height="4px" :min="130" :max="210" @drag-start="startDrag" @drag-end="endDrag">
             <template #button>
+              <div class="c-slide-tooltip tooltip" style="position: absolute;top: -58px;left: 50%;transform: translateX(-50%);font-size: 22px;background: rgba(255, 255, 255, 1);border-radius: 4px;padding: 5px;font-weight: bold;box-shadow: 0 0 4px 0 rgba(163, 163, 163, .36);" v-if="heightZoom">
+                {{ imp_height }}
+              </div>
               <div style="width: 26px;font-size: 10px;line-height: 18px;text-align: center;background-color: #fff;border-radius: 100px;box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">{{ imp_height }}</div>
             </template>
           </van-slider>
@@ -346,7 +349,9 @@ export default {
       // 购车情况下拉框显示隐藏
       showCarType: false,
       // 购车情况下拉框数据
-      columnsCarType: ['有', '无']
+      columnsCarType: ['有', '无'],
+      // 显示隐藏身高放大镜
+      heightZoom: false
     }
   },
   created () {
@@ -512,11 +517,33 @@ export default {
         life_imgs: upLifeImgs
       })
       if (res.status !== '200') return this.$notify(res.msg)
+    },
+    // 开始拖动
+    startDrag () {
+      this.heightZoom = true
+    },
+    // 结束拖动
+    endDrag () {
+      this.heightZoom = false
     }
   }
 }
 </script>
 
 <style lang="less">
-
+  .c-slide-tooltip::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent;
+    border-left-color: #fff;
+    border-bottom-color: #fff;
+    transform: rotate(-45deg) translateX(-50%);
+    bottom: 0;
+    box-shadow: -1px 1px 4px 0 rgba(163, 163, 163, .36);
+    left: 50%;
+  }
 </style>
