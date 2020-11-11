@@ -181,9 +181,9 @@
       <van-field
         readonly
         clickable
-        name="address"
+        name="workplace"
         :value="areaValue"
-        label="现住地"
+        label="工作地"
         placeholder="点击选择省市区"
         @click="showArea = true"
       />
@@ -249,6 +249,25 @@
           :columns="columnsCarType"
           @confirm="onConfirmCarType"
           @cancel="showCarType = false"
+        />
+      </van-popup>
+
+      <!-- 购房情况 -->
+      <van-field
+        readonly
+        clickable
+        name="house_type"
+        :value="house_type"
+        label="购房情况"
+        placeholder="点击选择"
+        @click="showHouseType = true"
+      />
+      <van-popup v-model="showHouseType" position="bottom" round>
+        <van-picker
+          show-toolbar
+          :columns="columnsHouseType"
+          @confirm="onConfirmHouseType"
+          @cancel="showHouseType = false"
         />
       </van-popup>
 
@@ -350,6 +369,12 @@ export default {
       showCarType: false,
       // 购车情况下拉框数据
       columnsCarType: ['有', '无'],
+      // 购房情况
+      house_type: '',
+      // 购房情况下拉框显示隐藏
+      showHouseType: false,
+      // 购房情况下拉框数据
+      columnsHouseType: ['有', '无'],
       // 显示隐藏身高放大镜
       heightZoom: false
     }
@@ -459,11 +484,17 @@ export default {
       this.car_type = value
       this.showCarType = false
     },
+    // 购房情况事件
+    onConfirmHouseType (value) {
+      this.house_type = value
+      this.showHouseType = false
+    },
     // 表单提交 保存资料
     async onSubmit (values) {
       values.improve_sex = values.improve_sex === '男' ? '1' : '0'
       values.is_children = values.is_children === '有子女' ? '1' : '0'
       values.car_type = values.car_type === '有' ? '1' : '0'
+      values.house_type = values.house_type === '有' ? '1' : '0'
 
       const { data: res } = await this.$http.post('/wpapi/me/improve_users', values)
       if (res.status !== '200') return this.$notify(res.msg)
@@ -489,10 +520,11 @@ export default {
       this.imp_height = Number(res.data.imp_height)
       this.imp_education = res.data.imp_education
       this.imp_monthly_salary = res.data.imp_monthly_salary
-      this.areaValue = res.data.address
+      this.areaValue = res.data.workplace
       this.is_children = res.data.is_children ? '有子女' : '无子女'
       this.blood_type = res.data.blood_type
       this.car_type = res.data.car_type ? '有' : '无'
+      this.house_type = res.data.house_type ? '有' : '无'
     },
     // 头像、生活照
     async getPictureInit () {

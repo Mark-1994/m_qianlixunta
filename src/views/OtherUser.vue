@@ -112,8 +112,8 @@
           </van-row>
           <van-row v-if="active">
             <van-col span="24" style="text-align: left;">
-              <h4>现住地</h4>
-              <p style="color: rgba(0,0,0,.4)">{{usersDetailInit.address}}</p>
+              <h4>工作地</h4>
+              <p style="color: rgba(0,0,0,.4)">{{usersDetailInit.workplace}}</p>
             </van-col>
           </van-row>
           <van-row v-if="active">
@@ -132,6 +132,12 @@
             <van-col span="24" style="text-align: left;">
               <h4>购车情况</h4>
               <p style="color: rgba(0,0,0,.4)">{{usersDetailInit.car_type ? '有' : '无'}}</p>
+            </van-col>
+          </van-row>
+          <van-row v-if="active">
+            <van-col span="24" style="text-align: left;">
+              <h4>购房情况</h4>
+              <p style="color: rgba(0,0,0,.4)">{{usersDetailInit.house_type ? '有' : '无'}}</p>
             </van-col>
           </van-row>
 
