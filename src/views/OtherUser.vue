@@ -1,7 +1,7 @@
 <template>
   <div class="other_user">
 
-    <van-tabs v-model="active" animated border swipeable @change="otherUserChangeSwitch" @disabled="onClickDisabled">
+    <van-tabs v-model="active" animated border swipeable @change="otherUserChangeSwitch" @disabled="onClickDisabled" title-inactive-color="#323233">
       <van-tab v-for="item in parseInt($route.params.id) ? tab_title1 : tab_title2" :title="!item.id && !parseInt($route.params.id) ? '编辑' : item.title" :key="item.id" :disabled="(!item.id || item.id === 2) && !parseInt($route.params.id)">
         <div class="user_info_box">
           <van-row>

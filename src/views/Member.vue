@@ -82,7 +82,7 @@
           </van-col>
         </van-row>
 
-        <van-form @submit="isVipNotify(1)" style="padding: 20px 20px 0;">
+        <van-form @submit="isVipNotify(1, radio, redInfo)" style="padding: 20px 20px 0;">
           <van-field name="radio" label="" style="padding: 0;">
             <template #input>
               <van-radio-group v-model="radio" style="background-color: #f3f3f3;">
@@ -175,7 +175,12 @@ export default {
       this.superVipStatus = res.data.super_vip_status
     },
     // 身份反馈展示
-    isVipNotify (type) {
+    isVipNotify (type, radio, redInfo) {
+      if (radio === 1) {
+        if (!redInfo[radio - 1].status) return this.$notify({ type: 'warning', message: '下架了' })
+      } else if (radio === 2) {
+        if (!redInfo[radio - 1].status) return this.$notify({ type: 'warning', message: '下架了' })
+      }
       if (!type) {
         if (this.vipStatus) {
           return this.$notify({

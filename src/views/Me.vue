@@ -5,20 +5,42 @@
       <van-field name="head_portrait">
         <template #input>
           <van-row type="flex" align="center" justify="center" style="width: 100%;">
-            <van-col>
+            <van-col span="6">
               <van-uploader :after-read="afterRead" v-model="fileList" :show-upload="!fileList.length" upload-icon="plus" />
             </van-col>
-            <van-col>
+            <van-col span="18">
               上传头像真实头像更容易找到另一半哦~
             </van-col>
           </van-row>
         </template>
       </van-field>
+
+      <van-field label="头像列表">
+        <template #input>
+          <van-row>
+            <van-col span="24">
+              <van-image v-for="item in headList" :key="item.id" style="margin-right: 8px;" @click="clickChooseHead(item.head_portrait_src)" width="80" height="80" :src="`http://admin.qianlixunta.com${item.head_portrait_src}`" />
+            </van-col>
+          </van-row>
+        </template>
+      </van-field>
+
       <van-field name="life_imgs" label="照片">
         <template #input>
           <van-uploader v-model="uploader" :after-read="afterReadLifeImgs" :max-count="9" upload-icon="plus" />
         </template>
       </van-field>
+
+      <van-field label="生活照列表">
+        <template #input>
+          <van-row>
+            <van-col span="24">
+              <van-image v-for="item in liftList" :key="item.id" style="margin-right: 8px;" @click="clickChooseLife(item.life_imgs_src)" width="80" height="80" :src="`http://admin.qianlixunta.com${item.life_imgs_src}`" />
+            </van-col>
+          </van-row>
+        </template>
+      </van-field>
+
       <van-field name="name" v-model="name" label="姓名" placeholder="请输入姓名" />
       <van-field
         readonly
@@ -278,7 +300,7 @@
       </div>
 
     </van-form>
-
+    <van-loading v-if="showLoad" type="spinner" color="#1989fa" size="24px" style="position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);">加载中...</van-loading>
   </div>
 </template>
 
@@ -376,12 +398,20 @@ export default {
       // 购房情况下拉框数据
       columnsHouseType: ['有', '无'],
       // 显示隐藏身高放大镜
-      heightZoom: false
+      heightZoom: false,
+      // loading 显示隐藏
+      showLoad: false,
+      // 头像列表数据
+      headList: [],
+      // 生活照列表数据
+      liftList: []
     }
   },
   created () {
     this.getUsersDetailInit()
     this.getPictureInit()
+    this.getHeadList()
+    this.getLifeList()
   },
   methods: {
     // 上传头像图片
@@ -495,14 +525,14 @@ export default {
       values.is_children = values.is_children === '有子女' ? '1' : '0'
       values.car_type = values.car_type === '有' ? '1' : '0'
       values.house_type = values.house_type === '有' ? '1' : '0'
-
+      this.showLoad = true
       const { data: res } = await this.$http.post('/wpapi/me/improve_users', values)
       if (res.status !== '200') return this.$notify(res.msg)
+      this.showLoad = false
       this.$notify({
         type: 'success',
         message: res.msg
       })
-
       // 头像和生活照上传
       this.pictureForm()
     },
@@ -557,6 +587,26 @@ export default {
     // 结束拖动
     endDrag () {
       this.heightZoom = false
+    },
+    // 获取头像列表
+    async getHeadList () {
+      const { data: res } = await this.$http.get('/wpapi/member/head_portrait_init')
+      if (res.status !== '200') return this.$notify(res.msg)
+      this.headList = res.data
+    },
+    // 点击选择头像
+    clickChooseHead (imgVal) {
+      this.fileList[0].url = `http://admin.qianlixunta.com${imgVal}`
+    },
+    // 获取生活照列表
+    async getLifeList () {
+      const { data: res } = await this.$http.get('/wpapi/member/life_imgs_init')
+      if (res.status !== '200') return this.$notify(res.msg)
+      this.liftList = res.data
+    },
+    // 点击选择生活照
+    clickChooseLife (imgVal) {
+      this.uploader.push({ url: 'http://admin.qianlixunta.com' + imgVal })
     }
   }
 }

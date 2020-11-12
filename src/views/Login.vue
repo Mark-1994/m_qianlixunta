@@ -21,9 +21,9 @@
           v-model="username"
           name="用户名"
           label="用户名"
-          placeholder="输入账号"
+          placeholder="输入手机号"
           clearable
-          :rules="[{ required: true, message: '请填写用户名' }]"
+          :rules="[{ required: true, message: '请填写手机号' }]"
         />
         <van-field
           v-model="password"
