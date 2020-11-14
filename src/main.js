@@ -46,9 +46,11 @@ import {
   CheckboxGroup,
   Step,
   Steps,
-  Loading
+  Loading,
+  Switch
 } from 'vant'
 import 'vant/lib/index.css'
+import './assets/icon/iconfont.css'
 Vue.use(Button)
 Vue.use(NavBar)
 Vue.use(Col)
@@ -92,6 +94,7 @@ Vue.use(CheckboxGroup)
 Vue.use(Step)
 Vue.use(Steps)
 Vue.use(Loading)
+Vue.use(Switch)
 
 axios.defaults.baseURL = 'http://admin.qianlixunta.com'
 axios.interceptors.request.use(config => {

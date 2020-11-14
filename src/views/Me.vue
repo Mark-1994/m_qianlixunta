@@ -596,6 +596,7 @@ export default {
     },
     // 点击选择头像
     clickChooseHead (imgVal) {
+      this.fileList = this.fileList.length ? this.fileList : [{ url: '' }]
       this.fileList[0].url = `http://admin.qianlixunta.com${imgVal}`
     },
     // 获取生活照列表

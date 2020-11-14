@@ -18,8 +18,13 @@
                 </van-col>
                 <van-col span="12" style="padding-top: 2rem;">
                   <van-row type="flex" justify="space-between" align="center">
-                    <van-col span="17" style="font-size: 22px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.nickname}}</van-col>
-                    <van-col span="7"><van-tag type="primary" size="large" color="#379AFD">{{Number(userInfo.users_year) ? new Date().getFullYear() - userInfo.users_year : '年龄'}}岁</van-tag></van-col>
+                    <van-col span="15" style="font-size: 22px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.nickname}}</van-col>
+                    <van-col span="9">
+                      <van-tag type="primary" size="large" :color="userInfo.sex ? '#379afd' : '#ff2877'">
+                        <van-icon :class="`iconfont ${userInfo.sex ? 'icon-male2' : 'icon-nvxing'}`" size="10" style="margin-right: 6px;" />
+                        {{Number(userInfo.users_year) ? new Date().getFullYear() - userInfo.users_year : '年龄'}}岁
+                      </van-tag>
+                    </van-col>
                   </van-row>
                   <van-row type="flex" justify="space-between" style="margin-top: 1rem;">
                     <!-- <van-col span="7"><van-tag size="large" color="#917FFE" style="display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">{{userInfo.workplace ? userInfo.workplace.split('省')[0] : '城市'}}</van-tag></van-col> -->

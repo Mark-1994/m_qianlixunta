@@ -3,6 +3,152 @@
     <!-- <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/> -->
 
+    <van-dropdown-menu>
+      <van-dropdown-item title="筛选" ref="searchForm">
+        <!-- 年龄 -->
+        <van-field
+          readonly
+          clickable
+          name="search_age"
+          :value="search_age"
+          label="年龄"
+          placeholder="点击选择年龄"
+          @click="showSearchAge = true"
+          input-align="right"
+        />
+        <van-popup v-model="showSearchAge" round position="bottom">
+          <van-picker
+            show-toolbar
+            :columns="columnsSearchAge"
+            @confirm="onConfirmSearchAge"
+            @cancel="showSearchAge = false"
+          />
+        </van-popup>
+
+        <!-- 学历 -->
+        <van-field
+          readonly
+          clickable
+          name="search_education"
+          :value="search_form.education"
+          label="学历"
+          placeholder="点击选择学历"
+          @click="showSearchEducation = true"
+          input-align="right"
+        />
+        <van-popup v-model="showSearchEducation" round position="bottom">
+          <van-picker
+            show-toolbar
+            :columns="columnsSearchEducation"
+            @confirm="onConfirmSearchEducation"
+            @cancel="showSearchEducation = false"
+          />
+        </van-popup>
+
+        <!-- 婚姻 -->
+        <van-field
+          readonly
+          clickable
+          name="search_marital"
+          :value="search_form.marital_status"
+          label="婚姻"
+          placeholder="点击选择婚姻"
+          @click="showSearchMarital = true"
+          input-align="right"
+        />
+        <van-popup v-model="showSearchMarital" round position="bottom">
+          <van-picker
+            show-toolbar
+            :columns="columnsSearchMarital"
+            @confirm="onConfirmSearchMarital"
+            @cancel="showSearchMarital = false"
+          />
+        </van-popup>
+
+        <!-- 现工作地 -->
+        <van-field
+          readonly
+          clickable
+          name="search_workplace"
+          :value="search_form.workplace"
+          label="现工作地"
+          placeholder="点击选择现工作地"
+          @click="showSearchWorkplace = true"
+          input-align="right"
+        />
+        <van-popup v-model="showSearchWorkplace" round position="bottom">
+          <van-area
+            show-toolbar
+            :area-list="columnsSearchWorkplace"
+            @confirm="onConfirmSearchWorkplace"
+            @cancel="showSearchWorkplace = false"
+          />
+        </van-popup>
+
+        <!-- 身高 -->
+        <van-field
+          readonly
+          clickable
+          name="search_height"
+          :value="search_form.height"
+          label="身高"
+          placeholder="点击选择身高"
+          @click="showSearchHeight = true"
+          input-align="right"
+        />
+        <van-popup v-model="showSearchHeight" round position="bottom">
+          <van-picker
+            show-toolbar
+            :columns="columnsSearchHeight"
+            @confirm="onConfirmSearchHeight"
+            @cancel="showSearchHeight = false"
+          />
+        </van-popup>
+
+        <!-- 月收入 -->
+        <van-field
+          readonly
+          clickable
+          name="search_monthly_salary"
+          :value="search_form.monthly_salary"
+          label="月收入"
+          placeholder="点击选择月收入"
+          @click="showSearchMonthlySalary = true"
+          input-align="right"
+        />
+        <van-popup v-model="showSearchMonthlySalary" round position="bottom">
+          <van-picker
+            show-toolbar
+            :columns="columnsSearchMonthlySalary"
+            @confirm="onConfirmSearchMonthlySalary"
+            @cancel="showSearchMonthlySalary = false"
+          />
+        </van-popup>
+
+        <van-cell center title="购房" style="text-align: left;">
+          <template #right-icon>
+            <van-switch v-model="switch1" size="24" active-color="#ee0a24" />
+          </template>
+        </van-cell>
+        <van-cell center title="购车" style="text-align: left;">
+          <template #right-icon>
+            <van-switch v-model="switch2" size="24" active-color="#ee0a24" />
+          </template>
+        </van-cell>
+        <van-cell center title="海外工作" style="text-align: left;">
+          <template #right-icon>
+            <van-switch v-model="switch3" size="24" active-color="#ee0a24" />
+          </template>
+        </van-cell>
+
+        <div style="padding: 5px 16px;">
+          <van-button type="danger" block round @click="onConfirmSearchForm">
+            确认
+          </van-button>
+        </div>
+      </van-dropdown-item>
+    </van-dropdown-menu>
+
     <van-tabs v-model="active" animated border swipeable @click="homeSwitch" @change="homeSwitch">
       <van-tab v-for="item in tab_title" :title="item.title" :key="item.id">
 
@@ -25,8 +171,8 @@
                 <van-image width="100%" height="217" fit="fill" lazy-load :src="item01.head_portrait ? 'http://admin.qianlixunta.com'+item01.head_portrait : 'http://admin.qianlixunta.com/upload/admin/article/thumbnail/20200807/nan.png'" radius="4" />
                 <van-row type="flex" justify="space-between" class="nickname_sex_age">
                   <van-col span="12" class="item_nickname">{{item01.nickname ? item01.nickname : '昵称'}}</van-col>
-                  <van-col span="9" class="item_sex_age">
-                    <van-icon name="flower-o" />
+                  <van-col span="9" class="item_sex_age" :style="item01.sex ? 'background-color: #1989fa;' : ''">
+                    <van-icon name="flower-o" size="10" :class="`iconfont ${item01.sex ? 'icon-male2' : 'icon-nvxing'}`" />
                     {{Number(item01.users_year) ? new Date().getFullYear() - item01.users_year : '年龄'}}岁
                   </van-col>
                 </van-row>
@@ -58,6 +204,7 @@
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
 import wx from 'weixin-js-sdk'
+import areaList from '@/assets/json/areaList.json'
 
 export default {
   name: 'Home',
@@ -81,7 +228,52 @@ export default {
       }],
       // 首页 tab 列表数据
       user_list: [],
-      pages: 0
+      pages: 0,
+      // 有无照片
+      switch1: false,
+      // 有无购车
+      switch2: false,
+      // 有无海外工作
+      switch3: false,
+      // 筛选表单数据
+      search_age: '',
+      // 筛选表单年龄下拉框显示隐藏
+      showSearchAge: false,
+      // 筛选表单年龄下拉框数据
+      columnsSearchAge: ['20-30', '30-40', '40-50'],
+      // 筛选表单学历下拉框显示隐藏
+      showSearchEducation: false,
+      // 筛选表单学历下拉框数据
+      columnsSearchEducation: ['博士', '硕士', '本科', '大专', '高职', '其他'],
+      // 筛选表单婚姻下拉框显示隐藏
+      showSearchMarital: false,
+      // 筛选表单婚姻下拉框数据
+      columnsSearchMarital: ['未婚', '离婚', '丧偶'],
+      // 筛选表单现工作地下拉框显示隐藏
+      showSearchWorkplace: false,
+      // 筛选表单现工作地下拉框数据
+      columnsSearchWorkplace: areaList,
+      // 筛选表单身高下拉框显示隐藏
+      showSearchHeight: false,
+      // 筛选表单身高下拉框数据
+      columnsSearchHeight: ['160-170', '170-180', '180-190', '190-200', '200-210'],
+      // 筛选表单月收入下拉框显示隐藏
+      showSearchMonthlySalary: false,
+      // 筛选表单月收入下拉框数据
+      columnsSearchMonthlySalary: ['1000-3000', '3001-5000', '5001-8000', '8001-12000', '12001-20000', '20001-50000', '50001-100000'],
+      search_form: {
+        page: 1,
+        age_low: '',
+        age_height: '',
+        education: '',
+        marital_status: '',
+        car_type: '',
+        monthly_salary: '',
+        height: '',
+        workplace: '',
+        is_abroad: '',
+        house_type: ''
+      }
     }
   },
   created () {
@@ -183,6 +375,57 @@ export default {
       }
       if (!callback) return false
       callback(Boolean(res.data.current_page === res.data.last_page))
+    },
+    // 年龄下拉框选中事件
+    onConfirmSearchAge (value) {
+      this.search_age = value
+      this.showSearchAge = false
+    },
+    // 学历下拉框选中事件
+    onConfirmSearchEducation (value) {
+      this.search_form.education = value
+      this.showSearchEducation = false
+    },
+    // 婚姻下拉框选中事件
+    onConfirmSearchMarital (value) {
+      this.search_form.marital_status = value
+      this.showSearchMarital = false
+    },
+    // 现工作地下拉框选中事件
+    onConfirmSearchWorkplace (value) {
+      this.search_form.workplace = value
+        .filter(item => !!item)
+        .map(item => item.name)
+        .join('/')
+      this.showSearchWorkplace = false
+    },
+    // 身高下拉框选中事件
+    onConfirmSearchHeight (value) {
+      this.search_form.height = value
+      this.showSearchHeight = false
+    },
+    // 月收入下拉框选中事件
+    onConfirmSearchMonthlySalary (value) {
+      this.search_form.monthly_salary = value
+      this.showSearchMonthlySalary = false
+    },
+    // 筛选确认按钮
+    onConfirmSearchForm () {
+      if (this.search_age) {
+        this.search_form.age_low = this.search_age.split('-')[0]
+        this.search_form.age_height = this.search_age.split('-')[1]
+      }
+      this.search_form.house_type = this.switch1 ? 1 : 0
+      this.search_form.car_type = this.switch2 ? 1 : 0
+      this.search_form.is_abroad = this.switch3 ? 1 : 0
+      this.$refs.searchForm.toggle()
+      this.getSelectFriend(this.search_form)
+    },
+    // 筛选事件
+    async getSelectFriend (searchForm) {
+      const { data: res } = await this.$http.post('/wpapi/member/select_friend', searchForm)
+      if (res.status !== 200) return this.$notify(res.msg)
+      this.user_list = res.data.data
     }
   }
 }
