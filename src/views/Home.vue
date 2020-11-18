@@ -3,7 +3,7 @@
     <!-- <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/> -->
 
-    <van-dropdown-menu>
+    <van-dropdown-menu style="background-color: #fff;">
       <van-dropdown-item title="筛选" ref="searchForm">
         <!-- 年龄 -->
         <van-field
@@ -149,7 +149,7 @@
       </van-dropdown-item>
     </van-dropdown-menu>
 
-    <van-tabs v-model="active" animated border swipeable @click="homeSwitch" @change="homeSwitch">
+    <van-tabs v-model="active" animated border swipeable @click="homeSwitch" @change="homeSwitch" style="background-color: #fff;">
       <van-tab v-for="item in tab_title" :title="item.title" :key="item.id">
 
         <van-pull-refresh
@@ -273,7 +273,9 @@ export default {
         workplace: '',
         is_abroad: '',
         house_type: ''
-      }
+      },
+      // 筛选事件 flag
+      filterFlag: 0
     }
   },
   created () {
@@ -323,6 +325,7 @@ export default {
         this.isLoading = false
         this.pages = 1
         this.finished = false
+        this.filterFlag = 0
       })
     },
     // 底部加载更多
@@ -366,15 +369,26 @@ export default {
     },
     // 数据追加
     async keeponHomeData (page, callback) {
-      const { data: res } = await this.$http.post('/wpapi/member/find_friend', {
-        page: page
-      })
-      if (res.status !== 200) return console.log('加载失败')
-      for (let i = 0; i < res.data.data.length; i++) {
-        this.user_list.push(res.data.data[i])
+      if (!this.filterFlag) {
+        const { data: res } = await this.$http.post('/wpapi/member/find_friend', {
+          page: page
+        })
+        if (res.status !== 200) return console.log('加载失败')
+        for (let i = 0; i < res.data.data.length; i++) {
+          this.user_list.push(res.data.data[i])
+        }
+        if (!callback) return false
+        callback(Boolean(res.data.current_page === res.data.last_page))
+      } else {
+        this.search_form.page = page
+        const { data: res } = await this.$http.post('/wpapi/member/select_friend', this.search_form)
+        if (res.status !== 200) return console.log('加载失败')
+        for (let i = 0; i < res.data.data.length; i++) {
+          this.user_list.push(res.data.data[i])
+        }
+        if (!callback) return false
+        callback(Boolean(res.data.current_page === res.data.last_page))
       }
-      if (!callback) return false
-      callback(Boolean(res.data.current_page === res.data.last_page))
     },
     // 年龄下拉框选中事件
     onConfirmSearchAge (value) {
@@ -423,9 +437,17 @@ export default {
     },
     // 筛选事件
     async getSelectFriend (searchForm) {
+      this.filterFlag = 1
+      this.pages = 1
+      searchForm.page = 1
       const { data: res } = await this.$http.post('/wpapi/member/select_friend', searchForm)
       if (res.status !== 200) return this.$notify(res.msg)
       this.user_list = res.data.data
+      if (res.data.current_page === res.data.last_page || res.data.data) {
+        this.finished = true
+      } else {
+        this.finished = false
+      }
     }
   }
 }

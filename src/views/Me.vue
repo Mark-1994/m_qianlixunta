@@ -15,7 +15,7 @@
         </template>
       </van-field>
 
-      <van-field label="头像列表">
+      <van-field name="head_portrait_list" label="头像列表">
         <template #input>
           <van-row>
             <van-col span="24">
@@ -31,7 +31,7 @@
         </template>
       </van-field>
 
-      <van-field label="生活照列表">
+      <van-field name="life_imgs_list" label="生活照列表">
         <template #input>
           <van-row>
             <van-col span="24">
@@ -521,13 +521,18 @@ export default {
     },
     // 表单提交 保存资料
     async onSubmit (values) {
+      console.log(values)
       values.improve_sex = values.improve_sex === '男' ? '1' : '0'
       values.is_children = values.is_children === '有子女' ? '1' : '0'
       values.car_type = values.car_type === '有' ? '1' : '0'
       values.house_type = values.house_type === '有' ? '1' : '0'
       this.showLoad = true
       const { data: res } = await this.$http.post('/wpapi/me/improve_users', values)
-      if (res.status !== '200') return this.$notify(res.msg)
+      if (res.status !== '200') {
+        this.$notify(res.msg)
+        this.showLoad = false
+        return
+      }
       this.showLoad = false
       this.$notify({
         type: 'success',

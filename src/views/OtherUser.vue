@@ -529,7 +529,7 @@
         </van-button>
       </van-col> -->
       <van-col>
-        <van-button color="linear-gradient(180deg,#fffab8, #f552bd)" icon="chat-o" style="width: 76px; height: 76px;border-radius: 50%;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);" @click="goToChat(0, $route.params.id, userInfo.nickname)">
+        <van-button class="sendMessage" color="linear-gradient(180deg,#fffab8, #f552bd)" icon="chat-o" style="width: 76px; height: 76px;border-radius: 50%;box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);" @click="goToChat(0, $route.params.id, userInfo.nickname)">
           发消息
         </van-button>
       </van-col>
@@ -649,5 +649,8 @@ export default {
     i {
       // font-size: 30px;
     }
+  }
+  .sendMessage i::before {
+    font-size: 30px;
   }
 </style>

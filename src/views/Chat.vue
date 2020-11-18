@@ -541,6 +541,7 @@ export default {
       this.$nextTick(() => {
         console.log(this.$refs.leftHead[0].alt)
       })
+      this.getMessageStatus()
     },
     // tab 切换事件
     chatSwitch (name, title) {
@@ -558,6 +559,13 @@ export default {
       if (res.status !== '200') return this.$notify(res.msg)
       this.userInfo = res.data
       this.userInfo.tag_arr = res.tag_arr
+    },
+    // 更新消息已读状态
+    async getMessageStatus () {
+      const { data: res } = await this.$http.post('/wpapi/wx/private_letter_update', {
+        to_users_id: this.$store.state.faceToFaceId
+      })
+      if (res.status !== 200) return this.$notify(res.msg)
     }
   }
 }

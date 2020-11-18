@@ -16,11 +16,11 @@
         </van-row>
       </div>
 
-      <van-form @submit="onSubmit">
+      <van-form @submit="onSubmit" class="loginForm">
         <van-field
           v-model="username"
-          name="用户名"
-          label="用户名"
+          name="手机号"
+          label="手机号"
           placeholder="输入手机号"
           clearable
           :rules="[{ required: true, message: '请填写手机号' }]"
@@ -91,6 +91,9 @@ export default {
   body,
   #app {
     height: 100%;
+  }
+  .loginForm .van-cell__title span {
+    color: #000;
   }
   .login {
     height: 100%;

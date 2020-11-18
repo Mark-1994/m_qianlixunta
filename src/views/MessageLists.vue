@@ -18,7 +18,7 @@
               <van-cell center title-style="text-align:left;margin-left:10px;overflow:hidden;" @click="goToChat(active, item.id, item.nickname)">
                 <template #icon>
                   <van-image width="40" height="40" radius="2" style="overflow: unset;" :src="item.head_portrait ? `http://admin.qianlixunta.com${item.head_portrait}` : require('../assets/logo_currency01.png')">
-                    <template v-slot:default v-if="active">
+                    <template v-slot:default v-if="active || !item.isread">
                       <van-icon dot style="position: absolute;top: 0;right: 0;" />
                     </template>
                   </van-image>
