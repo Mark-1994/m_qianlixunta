@@ -44,6 +44,16 @@
       <van-button @click="closeVipAd" icon="cross" round plain  color="#000" size="small" />
     </div>
 
+    <div class="newMessageAlert" style="position: fixed;right: 0;bottom: 180px;z-index: 999;" v-if="showNewMessageAlert">
+      <router-link to="/message_lists">
+        <van-image
+          @click="cancelNewMessageAlert"
+          fit="contain"
+          :src="require('../assets/hereComesTheNews01.png')"
+        />
+      </router-link>
+    </div>
+
   </div>
 </template>
 
@@ -67,7 +77,9 @@ export default {
       // 显示隐藏活动浮窗
       showActiveWindow: false,
       // 显示隐藏广告浮窗
-      showVipAd: false
+      showVipAd: false,
+      // 显示隐藏消息来了弹窗
+      showNewMessageAlert: false
     }
   },
   watch: {
@@ -83,6 +95,7 @@ export default {
         }
         if (window.localStorage.getItem('token')) {
           this.isWhetherVip()
+          this.getNewMessageAlert()
         }
       }
     }
@@ -109,6 +122,7 @@ export default {
         this.$router.push('/index')
         this.showActiveWindow = Boolean(window.localStorage.getItem('token'))
         this.showVipAd = false
+        this.showNewMessageAlert = false
       }
     },
     // 检测用户身份
@@ -128,6 +142,21 @@ export default {
     // 关闭广告弹窗
     closeVipAd () {
       this.showVipAd = false
+    },
+    // 检测是否有新消息
+    async getNewMessageAlert () {
+      const { data: res } = await this.$http.post('/wpapi/wx/eject_message')
+      if (res.status !== 200) return this.$notify(res.msg)
+      if (res.data.message_status) {
+        this.showNewMessageAlert = true
+      } else {
+        this.showNewMessageAlert = false
+      }
+    },
+    // 关闭新消息提醒
+    async cancelNewMessageAlert () {
+      const { data: res } = await this.$http.post('/wpapi/wx/eject_message_close')
+      if (res.status !== 200) return this.$notify(res.msg)
     }
   }
 }

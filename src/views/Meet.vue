@@ -101,12 +101,16 @@ export default {
     return {
       active: 0,
       // 首页两个 tab title
+      // tab_title: [{
+      //   id: 0,
+      //   title: '推荐'
+      // }, {
+      //   id: 1,
+      //   title: '附近'
+      // }],
       tab_title: [{
         id: 0,
-        title: '推荐'
-      }, {
-        id: 1,
-        title: '附近'
+        title: '同城'
       }],
       items: [
         { title: '卡片1', body: '内容1', img: 'https://img.yzcdn.cn/vant/cat.jpeg' },
@@ -123,6 +127,7 @@ export default {
   },
   created () {
     this.getAlluser()
+    // this.getCityWide()
   },
   mounted () {
   },
@@ -152,6 +157,16 @@ export default {
       this.users_id = res.data[0].users_id
       this.nickname = res.data[0].nickname
     },
+    // 获取同城用户
+    async getCityWide () {
+      const { data: res } = await this.$http.post('/wpapi/member/find_friend_wx', {
+        page: 1
+      })
+      if (res.status !== 200) return this.$notify(res.msg)
+      // this.items = res.data.data
+      // this.users_id = res.data.data[0].users_id
+      // this.nickname = res.data.data[0].nickname
+    },
     // 不喜欢标记
     async dislike (dislikeUsersid) {
       const { data: res } = await this.$http.post('/wpapi/wx/dislike', {
@@ -173,6 +188,30 @@ export default {
 </script>
 
 <style lang="less">
+  // html {
+  //   height: 100%;
+  //   body {
+  //     height: 100%;
+  //     #app {
+  //       height: 100%;
+  //       .meet {
+  //         height: 100%;
+  //         .van-tabs {
+  //           height: 100%;
+  //           .van-tabs__content {
+  //             height: 100%;
+  //             .van-tab__pane {
+  //               height: 100%;
+  //               .wrap {
+  //                 height: 100%;
+  //               }
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
   .wrap .van-button__content {
     flex-direction: column;
     i {
