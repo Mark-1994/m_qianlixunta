@@ -93,7 +93,7 @@ export default {
           this.$store.dispatch('getActionsChatName', '千里寻TA')
           this.head_title = this.$store.state.chatName
         }
-        if (window.localStorage.getItem('token')) {
+        if (window.localStorage.getItem('token') && to.path !== '/pay') {
           this.isWhetherVip()
           this.getNewMessageAlert()
         }
